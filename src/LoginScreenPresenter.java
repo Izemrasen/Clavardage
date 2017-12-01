@@ -9,6 +9,11 @@ public class LoginScreenPresenter {
     }
 
     public void onComputeButtonClicked(String LoginAsText) {
+        /*if (true) {
+        } else {
+
+        }*/
+
     }
 }
 
