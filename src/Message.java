@@ -62,6 +62,7 @@ public abstract class Message<Content>
         }
 
         // Take markers into account
-        return serializedHistory;
+        return null;
+        //return serializedHistory;
     }
 }

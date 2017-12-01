@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Authentication
 {
     public boolean login(String username)
@@ -27,9 +29,9 @@ public class Authentication
     private boolean isUsernameUnique(String username)
     {
         // Get active users
-        String[] userList = Network.getActiveUsers();
-        for (String user : userList)
-            if (user.equals(username))
+        ArrayList<User> users = Network.getActiveUsers();
+        for (User user : users)
+            if (user.getUsername().equals(username))
                 return false;
         return true;
     }

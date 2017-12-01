@@ -20,4 +20,14 @@ public class User
     {
         this.username = username;
     }
+
+    public String getIPAddr()
+    {
+        return IPAddr;
+    }
+
+    public int getPortNbr()
+    {
+        return portNbr;
+    }
 }
