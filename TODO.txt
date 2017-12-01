@@ -1,0 +1,33 @@
+How to send messages in a nice way?
+	#1. Homemade: Message -> frame (e.g.: ID:4B CONTENT)-> ~~~~~~~ -> frame -> Message
+	#2. Library for Java serialization
+		ObjectOutputStream, ObjectInputStream
+		http://www.java2s.com/Tutorial/Java/0180__File/ReadingBasicDataFromanObjectStream.htm
+
+Choice of DB
+	#1. SQLite: nice, but harder (need tables for each conversation, reminds me Mrs. Pain-in-the-Arse, etc.)
+		Table
+			History(remoteUsername, msgType/marker, timestamp, content, bool sent/received)
+	#2. JSON/XML (dirtier but easier: one file per conversation?)
+
+Network infrastructure
+				 TCP (over SSL?)
+	App1 (LAN1) -> ~~~~~~~~~~ -> App2 (LAN2)
+						|
+						|
+					Server? (e.g. to centralize list of active users)
+
+Network class
+	Thread1: listening (TCP port, any addr, etc.)
+	Thread2: waiting for user action
+
+
+
+TODO:
+-public -> getters/setters
+-field "Message.received": update it after receiving or sending messages, not before (because depends on the side of the observer)
+-server
+	list users: {username, IP addr, port number}
+-history
+	add event "connection closed"
+-save username and write it by default in the login form
