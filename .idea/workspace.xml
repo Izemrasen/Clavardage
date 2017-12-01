@@ -4,19 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/src/LoginScreenPresenter.java" line="11" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2cb0722f-0913-46ce-8a95-8b2343fc5dc8" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/TODO.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Authentication.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Message.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/MessageEvent.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/MessageText.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Network.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Session.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/LoginScreenPresenter.java" afterPath="$PROJECT_DIR$/src/LoginScreenPresenter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main.java" afterPath="$PROJECT_DIR$/src/Main.java" />
-    </list>
+    <list default="true" id="2cb0722f-0913-46ce-8a95-8b2343fc5dc8" name="Default" comment="" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +28,7 @@
       <file leaf-file-name="GuiChatSystem.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/GuiChatSystem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
+            <state relative-caret-position="372">
               <caret line="55" column="5" lean-forward="true" selection-start-line="55" selection-start-column="5" selection-end-line="55" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -524,7 +512,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GuiChatSystem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
+        <state relative-caret-position="372">
           <caret line="55" column="5" lean-forward="true" selection-start-line="55" selection-start-column="5" selection-end-line="55" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
