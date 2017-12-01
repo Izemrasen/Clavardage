@@ -1,15 +1,19 @@
+import java.text.SimpleDateFormat;
+
 public class MessageEvent extends Message<String>
 {
-    private enum EventMarker {LOGIN, LOGOUT, USERNAME_CHANGED};
+    public enum EventMarker {LOGIN, LOGOUT, USERNAME_CHANGED};
     private EventMarker eventMarker;
 
-    public MessageEvent(EventMarker eventMarker, String content, boolean received)
+    public MessageEvent(EventMarker eventMarker, String content)
     {
-        super(eventMarker.name() + content, received, Marker.EVENT);
+        super(eventMarker.name() + content, Marker.EVENT);
     }
 
+    @Override
     public String toString()
     {
-        return null;
+        SimpleDateFormat dt = new SimpleDateFormat("yyyyy-mm-dd hh:mm:ss");
+        return dt.format(this.getTimestamp()) + "\t" + this.eventMarker.name() + " (" + this.content + ")";
     }
 }

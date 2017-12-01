@@ -1,8 +1,8 @@
 public class MessageText extends Message<String>
 {
-    public MessageText(String content, boolean received)
+    public MessageText(String content)
     {
-        super(content, received, Marker.TEXT);
+        super(content, Marker.TEXT);
     }
 
     public String toString()

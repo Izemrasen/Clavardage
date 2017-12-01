@@ -5,6 +5,7 @@ public class Network
     public static void broadcast(Message message)
     {
         // Send events LOGIN, LOGOUT, USERNAME_CHANGED, etc.
+        // Add header: username
         //getActiveUsers()
     }
 
@@ -20,5 +21,14 @@ public class Network
     {
         // Launch thread for listening for TCP incomes
         //ServerSocket...
+        // if connection received -> new Session()
+        /*this.is = socket.getInputStream();
+        this.ois = new ObjectInputStream(is);
+        while (connection alive) {
+            Message m = (Message) ois.readObject();
+        }
+        ois.close();
+        is.close();
+        Destroy session*/
     }
 }

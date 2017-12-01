@@ -13,12 +13,11 @@ public abstract class Message<Content>
 
     public class History extends ArrayList<Message> {}
 
-    public Message(Content content, boolean received, Marker marker)
+    public Message(Content content, Marker marker)
     {
         this.content = content;
         this.marker = marker;
         this.timestamp = new Date();
-        this.received = received;
     }
 
     public Content getContent()
@@ -29,6 +28,11 @@ public abstract class Message<Content>
     public void setContent(Content content)
     {
         this.content = content;
+    }
+
+    public Date getTimestamp()
+    {
+        return timestamp;
     }
 
     public boolean isReceived()
@@ -65,4 +69,7 @@ public abstract class Message<Content>
         return null;
         //return serializedHistory;
     }
+
+    @Override
+    public abstract String toString();
 }
