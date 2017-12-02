@@ -7,13 +7,14 @@ public class MessageEvent extends Message<String>
 
     public MessageEvent(EventMarker eventMarker, String content)
     {
-        super(eventMarker.name() + content, Marker.EVENT);
+        super(Marker.EVENT, eventMarker.name() + content);
     }
 
     @Override
     public String toString()
     {
-        SimpleDateFormat dt = new SimpleDateFormat("yyyyy-mm-dd hh:mm:ss");
-        return dt.format(this.getTimestamp()) + "\t" + this.eventMarker.name() + " (" + this.content + ")";
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss.SSS");
+        // TODO: cf. MessageText
+        return dt.format(this.getDateSent()) + "\t" + this.eventMarker.name() + " (" + this.content + ")";
     }
 }

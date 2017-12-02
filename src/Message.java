@@ -1,23 +1,22 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public abstract class Message<Content>
+public abstract class Message<Content> implements Serializable
 {
-    protected Content content;
-
-    public enum Marker {TEXT, DATA, EVENT};
+	public enum Marker {TEXT, DATA, EVENT};
     protected Marker marker;
-
-    protected Date timestamp;
+    
+    protected Content content;
+    protected Date dateSent;
+    protected Date dateReceived;
     protected boolean received;
 
-    public class History extends ArrayList<Message> {}
-
-    public Message(Content content, Marker marker)
+    public Message(Marker marker, Content content)
     {
-        this.content = content;
         this.marker = marker;
-        this.timestamp = new Date();
+        this.content = content;
+        //this.dateSent = new Date();
     }
 
     public Content getContent()
@@ -30,44 +29,34 @@ public abstract class Message<Content>
         this.content = content;
     }
 
-    public Date getTimestamp()
+    public Date getDateSent()
     {
-        return timestamp;
+        return dateSent;
+    }
+    
+    public void setDateSent(Date dateSent)
+    {
+    	this.dateSent = dateSent;
+    }
+    
+    public Date getDateReceived()
+    {
+        return dateReceived;
+    }
+    
+    public void setDateReceived(Date dateReceived)
+    {
+    	this.dateReceived = dateReceived;
     }
 
     public boolean isReceived()
     {
         return received;
     }
-
-    public void addToHistory(History history)
+    
+    public void setReceived(boolean received)
     {
-        history.add(this);
-    }
-
-    public static void loadHistory(Session session)
-    {
-        // Open file or database
-        // Read
-        // Convert to History
-        //session.history = xxx
-    }
-
-    public static void saveHistory()
-    {
-        // Contrary of loadHistory() (write file or db, serialize messages)
-    }
-
-    public String historyToString(History history)
-    {
-        String serializedHistory;
-        for (Message m : history) {
-            //m.toString()
-        }
-
-        // Take markers into account
-        return null;
-        //return serializedHistory;
+        this.received = received;
     }
 
     @Override

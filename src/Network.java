@@ -1,10 +1,13 @@
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class Network
 {
     public static void broadcast(Message message)
     {
-        // Send events LOGIN, LOGOUT, USERNAME_CHANGED, etc.
+        // TODO
+    	// Send events (LOGIN, LOGOUT, USERNAME_CHANGED, etc.)
         // Add header: username
         //getActiveUsers()
     }
@@ -17,18 +20,9 @@ public class Network
         return users;
     }
 
-    public static void startListening()
+    public static void startServer()
     {
         // Launch thread for listening for TCP incomes
-        //ServerSocket...
-        // if connection received -> new Session()
-        /*this.is = socket.getInputStream();
-        this.ois = new ObjectInputStream(is);
-        while (connection alive) {
-            Message m = (Message) ois.readObject();
-        }
-        ois.close();
-        is.close();
-        Destroy session*/
+    	(new Thread(new Server())).start();
     }
 }
