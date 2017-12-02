@@ -2,12 +2,14 @@ import java.text.SimpleDateFormat;
 
 public class MessageEvent extends Message<String>
 {
-    public enum EventMarker {LOGIN, LOGOUT, USERNAME_CHANGED};
-    private EventMarker eventMarker;
+	private static final long serialVersionUID = 1L;
 
-    public MessageEvent(EventMarker eventMarker, String content)
+	public enum Event {LOGIN, LOGOUT, USERNAME_CHANGED};
+    private Event event;
+
+    public MessageEvent(Event event, String content)
     {
-        super(Marker.EVENT, eventMarker.name() + content);
+        super(Marker.EVENT, event.name() + content);
     }
 
     @Override
@@ -15,6 +17,6 @@ public class MessageEvent extends Message<String>
     {
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss.SSS");
         // TODO: cf. MessageText
-        return dt.format(this.getDateSent()) + "\t" + this.eventMarker.name() + " (" + this.content + ")";
+        return dt.format(this.getDateSent()) + "\t" + this.event.name() + " (" + this.content + ")";
     }
 }

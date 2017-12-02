@@ -8,8 +8,8 @@ public class Authentication
         if (!isUsernameUnique(username))
             return false;
 
-        // Send notification: user logged in
-        MessageEvent eventLogin = new MessageEvent(MessageEvent.EventMarker.LOGIN, "");
+        // Send broadcast event "user logged in"
+        MessageEvent eventLogin = new MessageEvent(MessageEvent.Event.LOGIN, "");
         Network.broadcast(eventLogin);
         return true;
     }
@@ -20,8 +20,8 @@ public class Authentication
         if (!isUsernameUnique(newUsername))
             return false;
 
-        // Send notification: user changed name
-        MessageEvent eventChange = new MessageEvent(MessageEvent.EventMarker.USERNAME_CHANGED, newUsername);
+        // Send broadcast event "user changed name"
+        MessageEvent eventChange = new MessageEvent(MessageEvent.Event.USERNAME_CHANGED, newUsername);
         Network.broadcast(eventChange);
 
         // Update db (to avoid duplicates, username is not stored for each message => stored once for every conversation the user add => update that name)

@@ -2,7 +2,6 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -15,12 +14,13 @@ public class Server implements Runnable
 	{
 		System.out.println("Starting server...");
 		
-		// TODO: infinite loop
+		// TODO: infinite loop listening for clients
 		// TODO: create new thread for each new session
 		// TODO: special class for received messages? (avoid boolean "received")
 		// TODO: remove redundancies (procedure for timestamping message, etc.) 
 		ServerSocket serverSocket;
 		try {
+			// Initialise server socket
 			serverSocket = new ServerSocket(6666);
 			System.out.println("<Server> Waiting for clients...");
 			Socket clientSocket = serverSocket.accept();
@@ -40,26 +40,30 @@ public class Server implements Runnable
 		    System.out.println("<Server> Got message.");
 		    messageID.setDateReceived(new Date());
 		    messageID.setReceived(true);
+		    
+		    // Create session
 		    User client = new User(messageID.getContent(), clientSocket.getRemoteSocketAddress().toString(), clientSocket.getPort());
             Session session = new Session(client);
             Session.addSession(session);
             session.getHistory().addMessage(messageID);
             
-            // Update session
-		    //while (!(clientSocket.isClosed())) {
+            // Loop for getting next messages
+		    // TODO: check socket state w/ clientSocket.isClosed()?
             try {
 	            for (;;)
 	            {
-		            Message m = (Message) ois.readObject();
+	            	// Update message metadata and save it
+		            Message<?> m = (Message<?>) ois.readObject();
 				    System.out.println("<Server> Got message.");
 				    m.setDateReceived(new Date());
 		            m.setReceived(true);
 		            session.getHistory().addMessage(m);
 			    }
             } catch (SocketTimeoutException exc) {
-                // you got the timeout
+                // You got the timeout
+            	// TODO: do the same thing than EOFException catch
             } catch (EOFException exc) {
-                // end of stream
+                // End of stream
             	System.out.println("<Server> End of stream.");
             	System.out.println("<Server> Closing session...");
             	ois.close();
@@ -67,8 +71,7 @@ public class Server implements Runnable
             	System.out.println("<Server> Session closed.");
      	        System.out.println("<Server> History:\n" + session.getHistory().toString());
      	        
-     	       //TODO: Destroy session
-     	        
+     	       // TODO: Remove session from table?
             } catch (IOException exc) {
                 // some other I/O error: print it, log it, etc.
                 exc.printStackTrace(); // for example

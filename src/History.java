@@ -2,21 +2,21 @@ import java.util.ArrayList;
 
 public class History
 {
-    private ArrayList<Message> messages;
-    private User remoteUser; // TODO: setter (or put it elsewhere)
+	private ArrayList<Message<?>> messages;
+    private User remoteUser; // TODO: put it elsewhere (session) or link History w/ Session
 
     public History(User remoteUser)
     {
-        this.messages = new ArrayList<Message>();
+        this.messages = new ArrayList<Message<?>>();
         this.remoteUser = remoteUser;
     }
 
-    public ArrayList<Message> getMessages()
+    public ArrayList<Message<?>> getMessages()
     {
         return messages;
     }
 
-    public void addMessage(Message m)
+    public void addMessage(Message<?> m)
     {
     	this.messages.add(m);
     }
@@ -44,7 +44,7 @@ public class History
     {
         String serializedHistory = "";
         boolean first = true;
-        for (Message m : messages) {
+        for (Message<?> m : messages) {
             if (!first)
                 serializedHistory += "\n";
             else

@@ -1,10 +1,10 @@
 import java.io.IOException;
 import java.util.Scanner;
-
 import javax.swing.JFrame;
 
 public abstract class Main
 {
+	// Name of the user running the client
 	private static String username = "perlimpinpin";
 	
     public static void main(String[] args)
@@ -12,10 +12,12 @@ public abstract class Main
     	// TODO: use lib to parse args
     	// e.g. org.apache.commons.cli.* (cf. 3MIC Graphes > PbCovoiturage.java)
     	if (args.length > 0 && args[0].equals("s")) {
+    		// Start server
     		Network.startServer();
     	}
     	
     	else {
+    		// Unit testing
 	        User u = new User("test", "127.0.0.1", 6666);
 	        Session s = new Session(u);
 	        try {
@@ -28,14 +30,12 @@ public abstract class Main
 				while (reader.hasNextLine() && !((line = reader.nextLine()).isEmpty())) {
 					s.send(new MessageText(line));
 				}
+				reader.close();
 				s.stop();
 				
 		        System.out.println("<Client> History:\n" + s.getHistory().toString());
 	
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -47,9 +47,10 @@ public abstract class Main
     	}
     }
 
+    // Method for exiting properly
     public static void exit()
     {
-        Network.broadcast(new MessageEvent(MessageEvent.EventMarker.LOGOUT, ""));
+        Network.broadcast(new MessageEvent(MessageEvent.Event.LOGOUT, ""));
         System.out.println("Exiting...");
         System.exit(0);
     }

@@ -7,6 +7,8 @@ import java.util.Date;
 
 public class Session
 {
+	// Table keeping every open sessions originating from the client or the server
+	// TODO: keep closed sessions? If not, store history somewhere else 
 	private static ArrayList<Session> sessions = new ArrayList<Session>();
 	
     private History history;
@@ -14,6 +16,7 @@ public class Session
     // TODO: Add local port?
 
     private Socket socket;
+    // Used for end-to-end object streaming 
 	private OutputStream os;
 	private ObjectOutputStream oos;
 
@@ -43,20 +46,22 @@ public class Session
         return remoteUser;
     }
 
-    public void send(Message message) throws IOException
+    public void send(Message<?> message) throws IOException
     {
         System.out.println("<Client> Sending message...");
+        
+        // Update message metadata
         message.setDateSent(new Date());
         message.setReceived(false);
+        
         this.oos.writeObject(message);
         this.history.addMessage(message);
         
     }
 
-    public void start() throws IOException, InterruptedException
+    public void start() throws IOException
     {
-        // Create session
-        // Initiate socket connection
+        // Initiate TCP connection
     	System.out.println("<Client> Establishing connection with " + remoteUser.getUsername() + " (" + remoteUser.getIPAddr() + ":" + remoteUser.getPortNbr() + ")...");
         this.socket = new Socket(remoteUser.getIPAddr(),remoteUser.getPortNbr());
         
@@ -68,7 +73,6 @@ public class Session
         
         // Send ID information
         send(new MessageText(Main.getUsername()));
-        
         //TODO: special message for ID
     }
 
@@ -80,9 +84,11 @@ public class Session
         this.os.close();
         System.out.println("<Client> Stream closed.");
         
-        // Destroy session
+        // Close session
     	System.out.println("<Client> Closing session...");
         this.socket.close();
         System.out.println("<Client> Session closed.");
+        
+        // TODO: Remove session from table?
     }
 }

@@ -1,9 +1,10 @@
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 
 public abstract class Message<Content> implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+
 	public enum Marker {TEXT, DATA, EVENT};
     protected Marker marker;
     

@@ -1,14 +1,13 @@
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
 
 public class Network
 {
-    public static void broadcast(Message message)
+	// Send messages to every active users
+    public static void broadcast(Message<?> message)
     {
         // TODO
     	// Send events (LOGIN, LOGOUT, USERNAME_CHANGED, etc.)
-        // Add header: username
+        // Add header to messages: username
         //getActiveUsers()
     }
 
@@ -22,7 +21,7 @@ public class Network
 
     public static void startServer()
     {
-        // Launch thread for listening for TCP incomes
+        // Launch thread listening for TCP incomes
     	(new Thread(new Server())).start();
     }
 }
