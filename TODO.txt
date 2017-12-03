@@ -1,5 +1,4 @@
 TODO
--add comments (or RIP Faiçal)
 -tests
 	try/catch: develop (e.g. java.net.ConnectException not caught)
 	class Test: supports CLI args (cf. lib org.apache.commons.cli)
@@ -7,7 +6,7 @@ TODO
 	=> unit tests!!!
 -DB: read/store history (SQLite)
 -message
-	do not consider messageID (cf. code) as TEXT -> send it directly via TCP?
+	do not consider message for ID (cf. code) as TEXT -> send it directly via TCP?
 -network
 	implement support for broadcast
 
@@ -23,7 +22,8 @@ OPTIMIZATION/EXTENDED FEATURES
 -server
 	keep up-to-date list of users: {username, IP addr, port number}
 -correct warnings
-
+-ping: assess quality of connection
+	(dateSent, dateReceived) useless because the two machines aren't necessarily sync to the same clock
 
 
 CHOICES
