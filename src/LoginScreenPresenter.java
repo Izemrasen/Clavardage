@@ -9,6 +9,15 @@ public class LoginScreenPresenter {
     }
 
     public void onComputeButtonClicked(String LoginAsText) {
+        if (true/*Authentication.login(LoginAsText)*/) {
+            guiLoginScreen.setVisible(false);
+            guiLoginScreen.dispose();
+            GuiChatSystem frame = new GuiChatSystem();
+            frame.display();
+        } else {
+
+        }
+
     }
 }
 
