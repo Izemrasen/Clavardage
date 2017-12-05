@@ -1,4 +1,8 @@
 TODO
+-Network: rm it
+	mv methods to User or Session
+	User.getActiveUsers() (static), User.broadcast() (static), user.getSession()?
+	put everything in User?
 -tests
 	try/catch: develop (e.g. java.net.ConnectException not caught)
 	class Test: supports CLI args (cf. lib org.apache.commons.cli)
