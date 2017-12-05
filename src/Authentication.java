@@ -31,7 +31,7 @@ public class Authentication
     private static boolean isUsernameUnique(String username)
     {
         // Get active users
-        ArrayList<User> users = Network.getActiveUsers();
+        ArrayList<User> users = User.getActiveUsers();
         for (User user : users)
             if (user.getUsername().equals(username))
                 return false;

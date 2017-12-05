@@ -1,4 +1,5 @@
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MessageEvent extends Message<String>
 {
@@ -15,8 +16,8 @@ public class MessageEvent extends Message<String>
     @Override
     public String toString()
     {
-        SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss.SSS");
-        // TODO: cf. MessageText
-        return dt.format(this.getDateSent()) + "\t" + this.event.name() + " (" + this.content + ")";
+    	SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss.SSS");
+        Date msgDate = this.getDirection() == Message.Direction.SENT ? this.getDateSent() : this.getDateReceived();
+        return dt.format(msgDate) + "\t" + this.event.name() + " (" + this.content + ")";
     }
 }

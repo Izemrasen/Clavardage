@@ -13,7 +13,7 @@ public abstract class Main
     	// e.g. org.apache.commons.cli.* (cf. 3MIC Graphes > PbCovoiturage.java)
     	if (args.length > 0 && args[0].equals("s")) {
     		// Start server
-    		Network.startServer();
+    		Server.start();
     	}
     	
     	else {
@@ -40,6 +40,13 @@ public abstract class Main
 				e.printStackTrace();
 			}
 	    	
+	        // Sleep
+	        try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	        exit();
 
 	        /*GuiLoginScreen frame = new GuiLoginScreen();

@@ -7,17 +7,19 @@ public abstract class Message<Content> implements Serializable
 
 	public enum Marker {TEXT, DATA, EVENT};
     protected Marker marker;
+
+    public enum Direction {SENT, RECEIVED};
+    protected Direction direction;
     
+    protected String senderName; // TODO: transfer to MessageEvent (useless for MessageText?)
     protected Content content;
     protected Date dateSent;
     protected Date dateReceived;
-    protected boolean received;
 
     public Message(Marker marker, Content content)
     {
         this.marker = marker;
         this.content = content;
-        //this.dateSent = new Date();
     }
 
     public Content getContent()
@@ -30,34 +32,44 @@ public abstract class Message<Content> implements Serializable
         this.content = content;
     }
 
+    // Set direction and date according to it
+    public void label(Direction direction)
+    {
+        this.direction = direction;
+        switch (direction) {
+            case SENT:
+                this.dateSent = new Date();
+                break;
+            case RECEIVED:
+                this.dateReceived = new Date();
+                break;
+        }
+    }
+    
+    public void label(Direction direction, String senderName)
+    {
+    	this.senderName = senderName;
+    	this.label(direction);
+    }
+
+    public Direction getDirection()
+    {
+        return direction;
+    }
+
+    public void setDirection(Direction direction)
+    {
+        this.direction = direction;
+    }
+
     public Date getDateSent()
     {
         return dateSent;
     }
-    
-    public void setDateSent(Date dateSent)
-    {
-    	this.dateSent = dateSent;
-    }
-    
+
     public Date getDateReceived()
     {
         return dateReceived;
-    }
-    
-    public void setDateReceived(Date dateReceived)
-    {
-    	this.dateReceived = dateReceived;
-    }
-
-    public boolean isReceived()
-    {
-        return received;
-    }
-    
-    public void setReceived(boolean received)
-    {
-        this.received = received;
     }
 
     @Override
