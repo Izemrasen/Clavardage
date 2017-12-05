@@ -12,37 +12,48 @@ public class GuiChatSystem extends JFrame {
         this.CSpresenter = new ChatSystemPresenter(this);
         this.setLayout(new BorderLayout());
 
-        JPanel panelContainer = new JPanel();
-        JPanel panelSession = new JPanel(new GridLayout(0, 1));
-        JPanel panelUsers = new JPanel(new GridLayout(10, 0));
-        JPanel panelFieldChange = new JPanel(new GridLayout(1, 0));
-
-        this.setContentPane(panelContainer);
-
-        panelContainer.setBorder(BorderFactory.createEmptyBorder(200,200,200,200));
-        panelSession.setBorder(BorderFactory.createEmptyBorder(100,100,1,1));
-        panelUsers.setBorder(BorderFactory.createEmptyBorder(200,10,200,1));
-
         // Change Login
         JLabel changeLoginLabel = new JLabel("Change your Username :");
         JTextField changeLoginTextField = new JTextField(15);
         changeLoginLabel.setLabelFor(changeLoginTextField);
         changeLoginTextField.setToolTipText("Insert your login");
 
-        JButton computeButton = new JButton("OK");
+        // Button OK
+        JButton computeButton = new JButton("Confirm");
+        computeButton.setSize(10,10);
         computeButton.addActionListener(e -> this.CSpresenter.onComputeButtonClicked(changeLoginTextField.getText()));
 
-        // Panels
-        panelSession.add(new JLabel("Chat Session"));
-
-        //Users Panel : labels
-        panelUsers.add(new JLabel("Users"));
-        panelUsers.add(changeLoginLabel);
-        panelFieldChange.add(changeLoginTextField);
 
 
-        panelContainer.add(panelSession, BorderLayout.WEST);
-        panelContainer.add(panelUsers, BorderLayout.EAST);
+
+        /******** RIGHT PANEL ********/
+        JPanel rightPanel = new JPanel(new GridLayout(2, 0));
+
+        // User List Panel
+        JScrollPane userListPanel = new JScrollPane();
+
+        // Settings Panel
+        JPanel settingsPanel = new JPanel(new GridLayout(4,0));
+        settingsPanel.add(changeLoginLabel);
+        settingsPanel.add(changeLoginTextField);
+        settingsPanel.add(computeButton);
+
+        rightPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Users"));
+        rightPanel.add(userListPanel);
+        rightPanel.add(settingsPanel);
+
+        /******** LEFT PANEL ********/
+        JScrollPane leftPanel= new JScrollPane();
+        leftPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Chat Session"));
+
+        /******** MAIN PANEL ********/
+        JPanel panelContainer = new JPanel();
+        panelContainer.setLayout(new BorderLayout());
+        this.setContentPane(panelContainer);
+        panelContainer.add(leftPanel, BorderLayout.CENTER);
+        panelContainer.add(rightPanel, BorderLayout.EAST);
+
+
 
 
 
@@ -51,6 +62,7 @@ public class GuiChatSystem extends JFrame {
 
     public void display() {
         this.pack();
+        this.setSize(800,500);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
     }
