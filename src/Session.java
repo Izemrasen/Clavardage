@@ -3,21 +3,19 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Session
 {
 	// Table keeping every open sessions originating from the client or the server
-	// TODO: keep closed sessions? If not, store history somewhere else 
-	private static ArrayList<Session> sessions = new ArrayList<Session>();
-	
-    private History history;
+	// TODO: remove/destroy session when closed
+	private static ArrayList<Session> sessions = new ArrayList<Session>(); // TODO: keep a single session table (remove this one or User's)
     private User remoteUser;
     // TODO: Add local port?
+	private History history; // This is a buffer to keep history of the session while User.history keeps history of every previous sessions
+	// TODO: provide session status (OPEN, CLOSED, etc.)
 
     private Socket socket;
-    // Used for end-to-end object streaming 
-	private OutputStream os;
+	private OutputStream os; // Used for end-to-end object streaming
 	private ObjectOutputStream oos;
 
     public Session(User remoteUser)
@@ -31,33 +29,39 @@ public class Session
 		return sessions;
 	}
 
+	public History getHistory()
+	{
+		return history;
+	}
+	
 	public static void addSession(Session session)
 	{
 		sessions.add(session);
 	}
-	
-    public History getHistory()
-    {
-        return history;
-    }
 
     public User getRemoteUser()
     {
         return remoteUser;
     }
 
+    // Send message and update history
     public void send(Message<?> message) throws IOException
     {
+    	this.sendBasic(message);
+        this.getHistory().add(message);
+    }
+    
+    // Send message without updating history
+    public void sendBasic(Message<?> message) throws IOException
+    {
         System.out.println("<Client> Sending message...");
-        
         // Update message metadata
-        message.setDateSent(new Date());
-        message.setReceived(false);
+        message.label(Message.Direction.SENT, Main.getUsername());
         
         this.oos.writeObject(message);
-        this.history.addMessage(message);
-        
+        //TODO: catch "java.net.SocketException: Broken pipe" (happens when the server closes connection while client is still connected)
     }
+ 
 
     public void start() throws IOException
     {
@@ -72,8 +76,7 @@ public class Session
         System.out.println("<Client> Stream opened.");
         
         // Send ID information
-        send(new MessageText(Main.getUsername()));
-        //TODO: special message for ID
+        sendBasic(new MessageText(Main.getUsername()));
     }
 
     public void stop() throws IOException

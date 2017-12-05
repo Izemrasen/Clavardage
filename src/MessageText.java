@@ -13,8 +13,8 @@ public class MessageText extends Message<String>
     @Override
     public String toString()
     {
-        SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss.SSS");
-        Date msgDate = this.received ? this.getDateReceived() : this.getDateSent();
+        SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss.SSS");
+        Date msgDate = this.getDirection() == Message.Direction.SENT ? this.getDateSent() : this.getDateReceived();
         return dt.format(msgDate) + "\t" + this.content;
     }
 }

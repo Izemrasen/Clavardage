@@ -1,18 +1,14 @@
 TODO
--Network: rm it
-	mv methods to User or Session
-	User.getActiveUsers() (static), User.broadcast() (static), user.getSession()?
-	put everything in User?
--tests
+-Network
+	thread for broadcasting periodically "hello, I'm xxx" (create new event "notify"?)
+		Send broadcast messages via UDP
+		Fill a table with active users as they declare themselves
+-Tests
 	try/catch: develop (e.g. java.net.ConnectException not caught)
 	class Test: supports CLI args (cf. lib org.apache.commons.cli)
 	Mockito, etc.
 	=> unit tests!!!
 -DB: read/store history (SQLite)
--message
-	do not consider message for ID (cf. code) as TEXT -> send it directly via TCP?
--network
-	implement support for broadcast
 
 
 

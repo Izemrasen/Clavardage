@@ -16,9 +16,9 @@ public class History
         return messages;
     }
 
-    public void addMessage(Message<?> m)
+    public void add(Message<?> m)
     {
-    	this.messages.add(m);
+        this.messages.add(m);
     }
     
     public User getRemoteUser()
@@ -26,7 +26,7 @@ public class History
         return remoteUser;
     }
 
-    public static void loadHistory(Session session)
+    public static void load(Session session)
     {
         // Open file or database
         // Read
@@ -34,7 +34,7 @@ public class History
         //session.history = xxx
     }
 
-    public static void saveHistory()
+    public static void save()
     {
         // Contrary of loadHistory() (write file or db, serialize messages)
     }
@@ -50,7 +50,7 @@ public class History
             else
                 first = false;
             serializedHistory += "<";
-            serializedHistory += m.isReceived() ? this.remoteUser.getUsername() : Main.getUsername();
+            serializedHistory += m.getDirection() == Message.Direction.SENT ? this.remoteUser.getUsername() : Main.getUsername();
             serializedHistory += ">\t" + m.toString();
         }
         return serializedHistory;

@@ -2,7 +2,8 @@
 import static java.awt.BorderLayout.EAST;
 import static java.awt.BorderLayout.SOUTH;
 import static java.awt.BorderLayout.WEST;
-
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 
 import java.awt.*;
@@ -10,6 +11,8 @@ import javax.swing.*;
 
 public class GuiLoginScreen extends JFrame {
 
+    public static final int WINDOW_WIDTH = 300;
+    public static final int WINDOW_HEIGHT = 150;
     private final LoginScreenPresenter LSpresenter;
 
     public GuiLoginScreen() {
@@ -17,13 +20,13 @@ public class GuiLoginScreen extends JFrame {
         this.LSpresenter = new LoginScreenPresenter(this);
 
 
-        JLabel loginLabel = new JLabel("Username");
+        JLabel loginLabel = new JLabel("Login");
         JTextField loginTextField = new JTextField(15);
         loginLabel.setLabelFor(loginTextField);
-        loginTextField.setToolTipText("Insert your Username");
+        loginTextField.setToolTipText("Insert your login");
 
         JButton computeButton = new JButton("Connect");
-        computeButton.addActionListener(e -> this.LSpresenter.onComputeButtonClicked(loginTextField.getText()));
+        //computeButton.addActionListener(e -> this.LSpresenter.onComputeButtonClicked(loginTextField.getText()));
 
         JPanel contentPane = new JPanel();
         setContentPane(contentPane);
@@ -37,7 +40,7 @@ public class GuiLoginScreen extends JFrame {
         contentPane.setBorder(BorderFactory.createEmptyBorder(10, 20, 50, 20));
         add(labelPane, WEST);
         add(fieldPane, EAST);
-        add(computeButton, SOUTH);
+        add(computeButton, EAST);
 
         loginTextField.requestFocus();
 
