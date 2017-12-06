@@ -1,4 +1,9 @@
 TODO
+Message
+	Move Network.broadcast() and Session.send() to Message
+		-> Message.send(User remoteUser)
+				-> if session not initiated: create it
+				-> else get session.oos and write object to stream
 Network
 	Thread for broadcasting periodically "hello, I'm xxx" (create new event "notify"?)
 	=> thread for receiving those messages

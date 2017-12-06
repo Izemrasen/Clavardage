@@ -1,3 +1,4 @@
+package com.clavardage;
 import java.util.ArrayList;
 
 public class User
@@ -7,6 +8,9 @@ public class User
     private int portNbr;
     private Session session;
     private History history;
+    
+    // TODO: avoid duplicates (single tuple of {username, IPAddr, portNbr}) -> hash table? collection?
+    private static ArrayList<User> activeUsers = new ArrayList<User>();
 
     public User(String username, String IPAddr, int portNbr)
     {
@@ -49,9 +53,19 @@ public class User
     
     public static ArrayList<User> getActiveUsers()
     {
-        // Broadcast? Or centralized way to achieve that (i.e. public list updated whenever a user logs in or logs out)
-        ArrayList<User> users = new ArrayList<>();
+    	return activeUsers;
         //users.add(new User("froufrou", "127.0.0.1", 6666));
-        return users;
+    }
+    
+    public static void addActiveUser(User user)
+    {
+    	// TODO: avoid duplicates
+    	activeUsers.add(user);
+    }
+    
+    // Use watcher (thread processing table checking periodically) to make users expire (store timestamp in table)
+    public static void removeActiveUser(User user)
+    {
+    	
     }
 }

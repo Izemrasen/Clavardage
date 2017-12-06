@@ -1,6 +1,9 @@
+package com.clavardage;
 import java.io.IOException;
 import java.util.Scanner;
 import javax.swing.JFrame;
+
+import com.clavardage.tasks.*;
 
 public abstract class Main
 {

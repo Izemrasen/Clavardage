@@ -1,3 +1,4 @@
+package com.clavardage.gui;
 
 import static java.awt.BorderLayout.EAST;
 import static java.awt.BorderLayout.SOUTH;

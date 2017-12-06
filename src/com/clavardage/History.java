@@ -1,3 +1,4 @@
+package com.clavardage;
 import java.util.ArrayList;
 
 public class History
@@ -25,13 +26,15 @@ public class History
     {
         return remoteUser;
     }
-
-    public static void load(Session session)
+    
+    // TODO: find a way to get owning class (i.e. user1.history.load() -> I want to get user1 from history)
+    // Easy way: field 'remoteUser'
+    public static void load(User remoteUser)
     {
         // Open file or database
         // Read
         // Convert to History
-        //session.history = xxx
+        //user.history = xxx
     }
 
     public static void save()

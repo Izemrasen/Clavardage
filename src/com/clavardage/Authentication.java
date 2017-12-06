@@ -1,3 +1,4 @@
+package com.clavardage;
 import java.util.ArrayList;
 
 public class Authentication

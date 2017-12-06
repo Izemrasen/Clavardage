@@ -1,3 +1,4 @@
+package com.clavardage;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -10,9 +11,8 @@ public class Session
 	// TODO: remove/destroy session when closed
 	private static ArrayList<Session> sessions = new ArrayList<Session>(); // TODO: keep a single session table (remove this one or User's)
     private User remoteUser;
-    // TODO: Add local port?
 	private History history; // This is a buffer to keep history of the session while User.history keeps history of every previous sessions
-	// TODO: provide session status (OPEN, CLOSED, etc.)
+	// TODO: provide session status (OPEN, CLOSED, etc.)?
 
     private Socket socket;
 	private OutputStream os; // Used for end-to-end object streaming
@@ -66,6 +66,7 @@ public class Session
     public void start() throws IOException
     {
         // Initiate TCP connection
+    	// TODO: correct that comment (I think TCP connection is initiated when opening stream)
     	System.out.println("<Client> Establishing connection with " + remoteUser.getUsername() + " (" + remoteUser.getIPAddr() + ":" + remoteUser.getPortNbr() + ")...");
         this.socket = new Socket(remoteUser.getIPAddr(),remoteUser.getPortNbr());
         
@@ -92,6 +93,6 @@ public class Session
         this.socket.close();
         System.out.println("<Client> Session closed.");
         
-        // TODO: Remove session from table?
+        // TODO: Remove session from table? Destroy session
     }
 }
