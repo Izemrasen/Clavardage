@@ -5,10 +5,7 @@ Message
 				-> if session not initiated: create it
 				-> else get session.oos and write object to stream
 Network
-	Thread for broadcasting periodically "hello, I'm xxx" (create new event "notify"?)
-	=> thread for receiving those messages
-		Send broadcast messages via UDP
-		Fill a table with active users as they declare themselves (=> no servers for now)
+	Fill a table with active users as they declare themselves (=> no servers for now)
 Tests
 	Try/catch: develop (e.g. java.net.ConnectException not caught)
 	class Test: supports CLI args (cf. lib org.apache.commons.cli)

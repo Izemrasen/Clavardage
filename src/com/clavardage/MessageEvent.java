@@ -1,6 +1,4 @@
 package com.clavardage;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class MessageEvent extends Message<String>
 {
@@ -12,13 +10,12 @@ public class MessageEvent extends Message<String>
     public MessageEvent(Event event, String content)
     {
         super(Marker.EVENT, event.name() + content);
+    	this.event = event;
     }
 
     @Override
     public String toString()
     {
-    	SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss.SSS");
-        Date msgDate = this.getDirection() == Message.Direction.SENT ? this.getDateSent() : this.getDateReceived();
-        return dt.format(msgDate) + "\t" + this.event.name() + " (" + this.content + ")";
+        return this.event.name() + " (" + this.content + ")";
     }
 }

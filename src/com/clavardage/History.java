@@ -1,5 +1,7 @@
 package com.clavardage;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class History
 {
@@ -54,7 +56,10 @@ public class History
                 first = false;
             serializedHistory += "<";
             serializedHistory += m.getDirection() == Message.Direction.SENT ? this.remoteUser.getUsername() : Main.getUsername();
-            serializedHistory += ">\t" + m.toString();
+            serializedHistory += ">\t";
+            SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss.SSS");
+            Date msgDate = m.getDirection() == Message.Direction.SENT ? m.getDateSent() : m.getDateReceived();
+            serializedHistory += dt.format(msgDate) + "\t" + m.toString();
         }
         return serializedHistory;
     }

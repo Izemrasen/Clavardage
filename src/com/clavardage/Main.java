@@ -21,12 +21,12 @@ public abstract class Main
     	
     	else {
     		// Unit testing
-	        User u = new User("test", "127.0.0.1", 6666);
+	        /*User u = new User("test", "127.0.0.1", Network.PORT_MESSAGES);
 	        Session s = new Session(u);
 	        try {
 				s.start();
 				/*s.send(new MessageText("AH !!!"));
-				s.send(new MessageText("Comment est votre blanquette ?"));*/
+				s.send(new MessageText("Comment est votre blanquette ?"));
 				
 				Scanner reader = new Scanner(System.in);
 				String line;
@@ -37,15 +37,19 @@ public abstract class Main
 				s.stop();
 				
 		        System.out.println("<Client> History:\n" + s.getHistory().toString());
-	
+		        DISCOVER_FUIFSERVER_REQUEST"
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
+    		
+    		// Test announcements
+    		AnnouncementManager.start();
+    		//Network.broadcast(null);
 	    	
 	        // Sleep
 	        try {
-				Thread.sleep(5000);
+				Thread.sleep(60000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -60,7 +64,8 @@ public abstract class Main
     // Method for exiting properly
     public static void exit()
     {
-        Network.broadcast(new MessageEvent(MessageEvent.Event.LOGOUT, ""));
+    	// No point in announcing "LOGOUT" (the remote user knows whenever TCP connection is closed, and he doesn't need to know that a user logs out)
+        //Network.broadcast(new MessageEvent(MessageEvent.Event.LOGOUT, ""));
         System.out.println("Exiting...");
         System.exit(0);
     }

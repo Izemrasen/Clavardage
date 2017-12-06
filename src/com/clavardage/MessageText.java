@@ -1,6 +1,4 @@
 package com.clavardage;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class MessageText extends Message<String>
 {
@@ -14,8 +12,6 @@ public class MessageText extends Message<String>
     @Override
     public String toString()
     {
-        SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss.SSS");
-        Date msgDate = this.getDirection() == Message.Direction.SENT ? this.getDateSent() : this.getDateReceived();
-        return dt.format(msgDate) + "\t" + this.content;
+        return this.content;
     }
 }

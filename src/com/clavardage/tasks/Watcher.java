@@ -6,8 +6,6 @@ public class Watcher // or Timer
 {
 	public class UserList implements Runnable
 	{
-		private static final long timeout = 10000; // 10s
-		
 		@Override
 		public void run()
 		{
@@ -15,7 +13,7 @@ public class Watcher // or Timer
 				// Check list of active users
 				//ArrayList<User> activeUsers= User.getActiveUsers();
 				/*for (User user : activeUsers) {
-					if (date now - user.dateAdded > timeout) {
+					if (date now - user.dateAdded > TIMEOUT_ANNOUNCEMENT + 100) {
 						// Remove user from table
 					}
 				}*/
@@ -29,6 +27,5 @@ public class Watcher // or Timer
 				}
 			}
 		}
-		
 	}
 }

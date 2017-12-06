@@ -9,6 +9,7 @@ import java.net.SocketTimeoutException;
 
 import com.clavardage.Message;
 import com.clavardage.MessageText;
+import com.clavardage.Network;
 import com.clavardage.Session;
 import com.clavardage.User;
 
@@ -21,7 +22,7 @@ public class Server implements Runnable
 		ServerSocket serverSocket;
 		try {
 			// Initialise server socket
-			serverSocket = new ServerSocket(6666);
+			serverSocket = new ServerSocket(Network.PORT_MESSAGES);
 			for(;;) {
 				System.out.println("<Server> Waiting for clients...");
 				Socket clientSocket = serverSocket.accept();
