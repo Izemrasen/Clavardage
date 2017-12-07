@@ -4,15 +4,16 @@ Message
 		-> Message.send(User remoteUser)
 				-> if session not initiated: create it
 				-> else get session.oos and write object to stream
+		-> no need for message.label() when broadcasting
 Network
 	Fill a table with active users as they declare themselves (=> no servers for now)
+DB
+	Read/store history (SQLite)
 Tests
 	Try/catch: develop (e.g. java.net.ConnectException not caught)
 	class Test: supports CLI args (cf. lib org.apache.commons.cli)
 	Mockito, etc.
 	=> unit tests!!!
-DB
-	Read/store history (SQLite)
 
 
 
@@ -20,11 +21,13 @@ OPTIMIZATION/EXTENDED FEATURES
 History
 	use receive buffer: do not store the entire history in memory
 		msg received -> update DB && display -> flush buffer
+ArrayList -> Array (more efficient?)
 Session
 	check redundancies in table 'sessions' (sessions can be opened by server and by client on the same side!)
 GUI
 	Save username and write it by default in the login form
 Correct warnings
+Add @Override whenever needed
 Assess quality of connection (e.g. ping or TCP information (window size, etc.))
 	(dateSent, dateReceived) useless for this task because the two machines aren't necessarily sync to the same clock
 Security

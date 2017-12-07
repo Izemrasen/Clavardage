@@ -8,6 +8,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import com.clavardage.Main;
+import com.clavardage.MessageEvent;
 import com.clavardage.MessageText;
 import com.clavardage.Network;
 
@@ -31,12 +32,12 @@ public class AnnouncementManager implements Runnable
 		{
 			for (;;) {
 				// Send announcement
-				MessageText message = new MessageText(Main.getUsername());
-				Network.broadcast(message);
+				Network.broadcast(new MessageEvent(MessageEvent.Event.ANNOUNCEMENT, ""));
+				Network.broadcast(new MessageEvent(MessageEvent.Event.USERNAME_CHANGED, "froufrou"));
 				
 				// Sleep
 				try {
-					Thread.sleep(Network.TIMEOUT_ANNOUNCEMENT);
+					Thread.sleep(Network.ANNOUNCEMENT_TIMEOUT);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -53,15 +54,20 @@ public class AnnouncementManager implements Runnable
 			// TODO: move to Network?
 			DatagramSocket socket;
 			try {
-				socket = new DatagramSocket(Network.PORT_ANNOUNCEMENTS, InetAddress.getByName("0.0.0.0"));
+				socket = new DatagramSocket(Network.ANNOUNCEMENT_PORT, InetAddress.getByName("0.0.0.0"));
 				socket.setBroadcast(true);
-				byte[] recvBuf = new byte[15000];
+				byte[] recvBuf = new byte[128];
 				DatagramPacket packet = new DatagramPacket(recvBuf, recvBuf.length);
 				
 				for (;;) {
 					socket.receive(packet);
 					String message = new String(packet.getData()).trim();
-					System.out.println("<<<<<ANNOUNCEMENT: " + message);
+					System.out.print("<<<<<ANNOUNCEMENT: ");
+					byte[] data = packet.getData();
+					for (byte b : data) {
+						System.out.print(Integer.toHexString(b) + " ");
+					}
+					System.out.println("   (" + message + ")");
 					
 					// TODO: Update user list (username, IP @, port number)
 					//User.addActiveUser(user);

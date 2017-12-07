@@ -8,9 +8,9 @@ import java.net.SocketException;
 
 public class Network
 {
-	public static final int PORT_MESSAGES = 6666;
-	public static final int PORT_ANNOUNCEMENTS = 6667;
-	public static final long TIMEOUT_ANNOUNCEMENT = 10000; // 10s
+	public static final int MESSAGE_PORT = 6666;
+	public static final int ANNOUNCEMENT_PORT = 6667;
+	public static final long ANNOUNCEMENT_TIMEOUT = 10000; // 10s
 	
 	// Broadcast messages
     public static void broadcast(Message<?> message)
@@ -20,8 +20,11 @@ public class Network
 		try {
 			socket = new DatagramSocket();
 			socket.setBroadcast(true);
-			byte[] sendData = message.toString().getBytes();
-			DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName("255.255.255.255"), Network.PORT_ANNOUNCEMENTS);
+			
+			message.label(Message.Direction.SENT, Main.getUsername());
+			byte[] sendData = message.toDatagram();
+			//TODO: check sendData not null
+			DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName("255.255.255.255"), Network.ANNOUNCEMENT_PORT);
 			socket.send(sendPacket);
 			socket.close();
 		} catch (SocketException e) {

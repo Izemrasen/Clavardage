@@ -12,7 +12,6 @@ public abstract class Message<Content> implements Serializable
     public enum Direction {SENT, RECEIVED};
     protected Direction direction;
     
-    protected String senderName; // TODO: transfer to MessageEvent (useless for MessageText?)
     protected Content content;
     protected Date dateSent;
     protected Date dateReceived;
@@ -49,7 +48,6 @@ public abstract class Message<Content> implements Serializable
     
     public void label(Direction direction, String senderName)
     {
-    	this.senderName = senderName;
     	this.label(direction);
     }
 
@@ -75,4 +73,7 @@ public abstract class Message<Content> implements Serializable
 
     @Override
     public abstract String toString();
+    
+    // Used to send UDP datagrams
+    public abstract byte[] toDatagram();
 }

@@ -14,4 +14,11 @@ public class MessageText extends Message<String>
     {
         return this.content;
     }
+
+	@Override
+	public byte[] toDatagram()
+	{
+		// Forbid broadcast for MessageText by security
+		return null;
+	}
 }

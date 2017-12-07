@@ -22,7 +22,7 @@ public class Server implements Runnable
 		ServerSocket serverSocket;
 		try {
 			// Initialise server socket
-			serverSocket = new ServerSocket(Network.PORT_MESSAGES);
+			serverSocket = new ServerSocket(Network.MESSAGE_PORT);
 			for(;;) {
 				System.out.println("<Server> Waiting for clients...");
 				Socket clientSocket = serverSocket.accept();
@@ -85,7 +85,7 @@ public class Server implements Runnable
     		            Message<?> m = (Message<?>) ois.readObject();
     				    System.out.println("<Server> Got message.");
     				    m.label(Message.Direction.RECEIVED);
-    		            session.getHistory().add(m);
+    		            session.getRemoteUser().getHistory().add(m);
     			    }
     	        } catch (SocketTimeoutException exc) {
     	            // You got the timeout
@@ -102,7 +102,7 @@ public class Server implements Runnable
     	        	System.out.println("<Server> Closing session...");
     	        	clientSocket.close();
     	            System.out.println("<Server> Session closed.");
-    	 	        System.out.println("<Server> History:\n" + session.getHistory().toString());
+    	 	        System.out.println("<Server> History:\n" + session.getRemoteUser().getHistory().toString());
     	 	        
     	 	       // TODO: Remove session from table, destroy session
     	        } catch (IOException exc) {
