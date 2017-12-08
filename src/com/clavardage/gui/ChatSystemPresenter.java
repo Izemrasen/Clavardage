@@ -1,3 +1,4 @@
+package com.clavardage.gui;
 
 
 public class ChatSystemPresenter {

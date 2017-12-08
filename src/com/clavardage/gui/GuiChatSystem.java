@@ -1,3 +1,4 @@
+package com.clavardage.gui;
 
 
 import java.awt.*;

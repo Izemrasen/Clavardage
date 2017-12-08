@@ -1,4 +1,7 @@
+package com.clavardage;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class History
 {
@@ -25,13 +28,15 @@ public class History
     {
         return remoteUser;
     }
-
-    public static void load(Session session)
+    
+    // TODO: find a way to get owning class (i.e. user1.history.load() -> I want to get user1 from history)
+    // Easy way: field 'remoteUser'
+    public static void load(User remoteUser)
     {
         // Open file or database
         // Read
         // Convert to History
-        //session.history = xxx
+        //user.history = xxx
     }
 
     public static void save()
@@ -51,7 +56,10 @@ public class History
                 first = false;
             serializedHistory += "<";
             serializedHistory += m.getDirection() == Message.Direction.SENT ? this.remoteUser.getUsername() : Main.getUsername();
-            serializedHistory += ">\t" + m.toString();
+            serializedHistory += ">\t";
+            SimpleDateFormat dt = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss.SSS");
+            Date msgDate = m.getDirection() == Message.Direction.SENT ? m.getDateSent() : m.getDateReceived();
+            serializedHistory += dt.format(msgDate) + "\t" + m.toString();
         }
         return serializedHistory;
     }

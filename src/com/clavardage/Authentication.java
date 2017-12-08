@@ -1,3 +1,4 @@
+package com.clavardage;
 import java.util.ArrayList;
 
 public class Authentication
@@ -9,8 +10,7 @@ public class Authentication
             return false;
 
         // Send broadcast event "user logged in"
-        MessageEvent eventLogin = new MessageEvent(MessageEvent.Event.LOGIN, "");
-        Network.broadcast(eventLogin);
+        Network.broadcast(new MessageEvent(MessageEvent.Event.ANNOUNCEMENT, ""));
         return true;
     }
 
@@ -21,8 +21,7 @@ public class Authentication
             return false;
 
         // Send broadcast event "user changed name"
-        MessageEvent eventChange = new MessageEvent(MessageEvent.Event.USERNAME_CHANGED, newUsername);
-        Network.broadcast(eventChange);
+        Network.broadcast(new MessageEvent(MessageEvent.Event.USERNAME_CHANGED, newUsername));
 
         // Update db (to avoid duplicates, username is not stored for each message => stored once for every conversation the user add => update that name)
         return true;
