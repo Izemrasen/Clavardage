@@ -7,6 +7,8 @@ public class GuiChatSystem extends JFrame {
 
     private final ChatSystemPresenter CSpresenter;
 
+    private User GuiUser;
+
     public GuiChatSystem() {
         super("Clavardage");
         this.CSpresenter = new ChatSystemPresenter(this);
@@ -21,9 +23,7 @@ public class GuiChatSystem extends JFrame {
         // Button OK
         JButton computeButton = new JButton("Confirm");
         computeButton.setSize(10,10);
-        computeButton.addActionListener(e -> this.CSpresenter.onComputeButtonClicked(changeLoginTextField.getText()));
-
-
+        //computeButton.addActionListener(e -> this.CSpresenter.onComputeButtonClicked(changeLoginTextField.getText()));
 
 
         /******** RIGHT PANEL ********/
@@ -38,9 +38,19 @@ public class GuiChatSystem extends JFrame {
         settingsPanel.add(changeLoginTextField);
         settingsPanel.add(computeButton);
 
+
+        for(int i=0; i < GuiUser.getActiveUsers().size() ; i++){
+            JButton connectButton = new JButton(GuiUser.getActiveUsers().get(i).getUsername());
+            connectButton.setSize(10,10);
+            userListPanel.add(connectButton);
+            //connectButton.addActionListener(e -> this.CSpresenter.onConnectButtonClicked());
+        }
+
         rightPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Users"));
         rightPanel.add(userListPanel);
         rightPanel.add(settingsPanel);
+
+
 
         /******** LEFT PANEL ********/
         JScrollPane leftPanel= new JScrollPane();
@@ -52,10 +62,6 @@ public class GuiChatSystem extends JFrame {
         this.setContentPane(panelContainer);
         panelContainer.add(leftPanel, BorderLayout.CENTER);
         panelContainer.add(rightPanel, BorderLayout.EAST);
-
-
-
-
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }

@@ -8,6 +8,8 @@ public class ChatSystemPresenter {
         this.guiChatSystem = guiChatSystem;
     }
 
-    public void onComputeButtonClicked(String LoginAsText) {
+    public void onConnectButtonClicked(User user) {
     }
+
+
 }
