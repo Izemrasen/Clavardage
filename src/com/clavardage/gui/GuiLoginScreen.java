@@ -12,25 +12,17 @@ import javax.swing.*;
 
 public class GuiLoginScreen extends JFrame {
 
-    public static final int WINDOW_WIDTH = 300;
-    public static final int WINDOW_HEIGHT = 150;
     private final LoginScreenPresenter LSpresenter;
 
     public GuiLoginScreen() {
         super("Clavardage");
         this.LSpresenter = new LoginScreenPresenter(this);
 
-
+        // Login area
         JLabel loginLabel = new JLabel("Login");
         JTextField loginTextField = new JTextField(15);
         loginLabel.setLabelFor(loginTextField);
         loginTextField.setToolTipText("Insert your login");
-
-        JButton computeButton = new JButton("Connect");
-        //computeButton.addActionListener(e -> this.LSpresenter.onComputeButtonClicked(loginTextField.getText()));
-
-        JPanel contentPane = new JPanel();
-        setContentPane(contentPane);
 
         JPanel labelPane = new JPanel(new GridLayout(0, 1));
         labelPane.add(loginLabel);
@@ -38,14 +30,25 @@ public class GuiLoginScreen extends JFrame {
         JPanel fieldPane = new JPanel(new GridLayout(0, 1));
         fieldPane.add(loginTextField);
 
+        // Button Connect
+        JButton computeButton = new JButton("Connect");
+        computeButton.addActionListener(e -> this.LSpresenter.onComputeButtonClicked(loginTextField.getText()));
+
+        // Main container
+        JPanel contentPane = new JPanel();
+        setContentPane(contentPane);
         contentPane.setBorder(BorderFactory.createEmptyBorder(10, 20, 50, 20));
-        add(labelPane, WEST);
-        add(fieldPane, EAST);
-        add(computeButton, EAST);
+        contentPane.add(labelPane, WEST);
+        contentPane.add(fieldPane, EAST);
+        contentPane.add(computeButton, EAST);
 
         loginTextField.requestFocus();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    public void usernameAlreadyInUse(String username) {
+        showMessageDialog(null, "'" + username + "' is already in use, please choose another username");
     }
 
     public void display() {
