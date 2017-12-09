@@ -1,4 +1,13 @@
 TODO
+History
+	Create tables if not existing
+	Mv "/home/guilhem/*.sqlite" to relative path within project
+GUI
+	Link with the rest
+		Authentication.login(): username form
+		User.getActiveUsers(): display active users
+		Server.Listen(): update GUI whenever receiving a message
+		Session.send(): update GUI whenever sending a message
 Message
 	New structure:
 		MessageData (not abstract): content type is abstract (String, byte[], etc.)
