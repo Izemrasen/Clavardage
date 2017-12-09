@@ -3,31 +3,32 @@ import java.io.IOException;
 import java.util.Scanner;
 import javax.swing.JFrame;
 
+import com.clavardage.Message.Direction;
 import com.clavardage.tasks.*;
 
 public abstract class Main
 {
 	// Name of the user running the client
 	private static String username = "perlimpinpin";
-	
-    public static void main(String[] args)
-    {
-    	// TODO: use lib to parse args
-    	// e.g. org.apache.commons.cli.* (cf. 3MIC Graphes > PbCovoiturage.java)
-    	if (args.length > 0 && args[0].equals("s")) {
-    		// Start server
-    		Server.start();
-    	}
-    	
-    	else {
-    		// Unit testing
-	        /*User u = new User("test", "127.0.0.1", Network.PORT_MESSAGES);
+
+	public static void main(String[] args)
+	{
+		// TODO: use lib to parse args
+		// e.g. org.apache.commons.cli.* (cf. 3MIC Graphes > PbCovoiturage.java)
+		if (args.length > 0 && args[0].equals("s")) {
+			// Start server
+			Server.start();
+		}
+
+		else {
+			// Unit testing
+			/*User u = new User("test", "127.0.0.1", Network.PORT_MESSAGES);
 	        Session s = new Session(u);
 	        try {
 				s.start();
 				/*s.send(new MessageText("AH !!!"));
 				s.send(new MessageText("Comment est votre blanquette ?"));
-				
+
 				Scanner reader = new Scanner(System.in);
 				String line;
 				while (reader.hasNextLine() && !((line = reader.nextLine()).isEmpty())) {
@@ -35,40 +36,51 @@ public abstract class Main
 				}
 				reader.close();
 				s.stop();
-				
+
 		        System.out.println("<Client> History:\n" + s.getHistory().toString());
 		        DISCOVER_FUIFSERVER_REQUEST"
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}*/
-    		
-    		// Test announcements
-    		AnnouncementManager.start();
-    		//Network.broadcast(null);
-	    	
-	        // Sleep
-	        try {
+
+			// Test announcements
+			/*AnnouncementManager.start();
+    		//Network.broadcast(null);*/
+
+			// Tests history
+			User u = new User("michou", "127.0.0.1", Network.MESSAGE_PORT);
+			History h = u.getHistory();
+			h.load();
+			System.out.println(h.toString());
+			MessageText m = new MessageText("caca fumanté$^@ù");
+			m.label(Direction.SENT);
+			h.getMessages().clear();
+			h.add(m);
+			//h.save();
+
+			// Sleep
+			/*try {
 				Thread.sleep(60000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-	        exit();
+			}*/
+			exit();
 
-	        /*GuiLoginScreen frame = new GuiLoginScreen();
+			/*GuiLoginScreen frame = new GuiLoginScreen();
 	        frame.display();*/
-    	}
-    }
+		}
+	}
 
-    // Method for exiting properly
-    public static void exit()
-    {
-    	// No point in announcing "LOGOUT" (the remote user knows whenever TCP connection is closed, and he doesn't need to know that a user logs out)
-        //Network.broadcast(new MessageEvent(MessageEvent.Event.LOGOUT, ""));
-        System.out.println("Exiting...");
-        System.exit(0);
-    }
+	// Method for exiting properly
+	public static void exit()
+	{
+		// No point in announcing "LOGOUT" (the remote user knows whenever TCP connection is closed, and he doesn't need to know that a user logs out)
+		//Network.broadcast(new MessageEvent(MessageEvent.Event.LOGOUT, ""));
+		System.out.println("Exiting...");
+		System.exit(0);
+	}
 
 	public static String getUsername()
 	{

@@ -17,7 +17,7 @@ public class Watcher // or Timer
 						// Remove user from table
 					}
 				}*/
-				
+
 				// Sleep 1s
 				try {
 					Thread.sleep(1000);

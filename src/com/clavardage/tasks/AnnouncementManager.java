@@ -14,7 +14,7 @@ import com.clavardage.Network;
 
 public class AnnouncementManager implements Runnable
 {
-    // TODO: Broadcast? Or centralized way to achieve that (i.e. public list updated whenever a user logs in or logs out)
+	// TODO: Broadcast? Or centralized way to achieve that (i.e. public list updated whenever a user logs in or logs out)
 	// TODO: choose standard port (6666/6667?)
 
 	@Override
@@ -24,7 +24,7 @@ public class AnnouncementManager implements Runnable
 		(new Thread(new Talk())).start();
 		(new Thread(new Listen())).start();
 	}
-	
+
 	public class Talk implements Runnable
 	{
 		@Override
@@ -34,7 +34,7 @@ public class AnnouncementManager implements Runnable
 				// Send announcement
 				Network.broadcast(new MessageEvent(MessageEvent.Event.ANNOUNCEMENT, ""));
 				Network.broadcast(new MessageEvent(MessageEvent.Event.USERNAME_CHANGED, "froufrou"));
-				
+
 				// Sleep
 				try {
 					Thread.sleep(Network.ANNOUNCEMENT_TIMEOUT);
@@ -45,7 +45,7 @@ public class AnnouncementManager implements Runnable
 			}
 		}
 	}
-	
+
 	public class Listen implements Runnable
 	{
 		@Override
@@ -58,7 +58,7 @@ public class AnnouncementManager implements Runnable
 				socket.setBroadcast(true);
 				byte[] recvBuf = new byte[128];
 				DatagramPacket packet = new DatagramPacket(recvBuf, recvBuf.length);
-				
+
 				for (;;) {
 					socket.receive(packet);
 					String message = new String(packet.getData()).trim();
@@ -68,11 +68,11 @@ public class AnnouncementManager implements Runnable
 						System.out.print(Integer.toHexString(b) + " ");
 					}
 					System.out.println("   (" + message + ")");
-					
+
 					// TODO: Update user list (username, IP @, port number)
 					//User.addActiveUser(user);
 				}
-				
+
 			} catch (SocketException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -85,7 +85,7 @@ public class AnnouncementManager implements Runnable
 			}
 		}
 	}
-	
+
 	public static void start()
 	{
 		(new Thread(new AnnouncementManager())).start();
