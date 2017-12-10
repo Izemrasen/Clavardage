@@ -1,7 +1,6 @@
 TODO
 History
 	Create tables if not existing
-	Mv "/home/guilhem/*.sqlite" to relative path within project
 GUI
 	Link with the rest
 		Authentication.login(): username form
@@ -9,6 +8,7 @@ GUI
 		Server.Listen(): update GUI whenever receiving a message
 		Session.send(): update GUI whenever sending a message
 Message
+	messageID: use InputStreamReader instead of ios oos etc.
 	New structure:
 		MessageData (not abstract): content type is abstract (String, byte[], etc.)
 		MessageEvent (not abstract): same as now
@@ -26,6 +26,9 @@ Tests
 	Mockito, etc.
 	=> unit tests!!!
 	Prevent null pointer exceptions (add many tests "if (xxx == null) return;") etc.
+Real-time constraints
+	Timers
+	Counters (e.g. check max connection is not exceeded)
 
 
 
@@ -62,12 +65,13 @@ Network infrastructure
 						|
 					Server? (e.g. to centralize list of active users)
 
+
 DB
 	#1. SQLite: cool (single table, clean)
 		Table
 			History(remoteUsername, msgType/marker, timestamp, content, bool sent/received)
 	#2. JSON/XML (dirtier but easier: one file per conversation?)
-	
+
 SQLITE
 PRAGMA foreign_keys = ON;
 DROP TABLE user;
@@ -82,6 +86,8 @@ CREATE TABLE message(
 INSERT INTO message VALUES("michou", 0, 0, 1512770405, "test");
 INSERT INTO message VALUES("michou", 0, 1, 1512770405, 45);
 SELECT * FROM message;
+
+/!\ Add lib/sqlite-jdbc-xxx.jar to build path
 
 
 Message layout

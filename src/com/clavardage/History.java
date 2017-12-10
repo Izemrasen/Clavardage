@@ -77,6 +77,8 @@ public class History
 	// Save (append) history to database for the specified remote user
 	public void save()
 	{
+		// TODO: create table if not existing
+		
 		// Connect to database
 		Connection connection = Database.connect();
 		String SQLRequest = "INSERT INTO user VALUES(\"" + remoteUser.getUsername() + "\");";

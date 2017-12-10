@@ -10,7 +10,7 @@ public class Database
 	{
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:sqlite:/home/guilhem/clavardage.sqlite");
+			connection = DriverManager.getConnection("jdbc:sqlite:clavardage.sqlite");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
