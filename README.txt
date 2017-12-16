@@ -1,4 +1,5 @@
 TODO
+Rename *event to *announcement?
 GUI
 	Link with the rest
 		Authentication.login(): username form
@@ -24,19 +25,20 @@ Tests
 	Mockito, etc.
 	=> unit tests!!!
 	Prevent null pointer exceptions (add many tests "if (xxx == null) return;") etc.
-Real-time constraints
-	Timers
-	Counters (e.g. check max connection is not exceeded)
 
 
 
 OPTIMIZATION/EXTENDED FEATURES
+Smart conflict handling between users having the same username
+	Authority: central server || users come to an agreement (more p2p-like)
+	How to break the tie: check date of last "ALIVE" announcement || cast the dice
+Prevent running multiple instances of the same thread
+Real-time constraints
+	Timers
+	Counters (e.g. check max connection is not exceeded)
 History
 	use receive buffer: do not store the entire history in memory
 		msg received -> update DB && display -> flush buffer
-Smart conflict handling between users having the same username
-	Cast the dice
-	OR central server has authority
 ArrayList -> Array (more efficient?)
 Session
 	check redundancies in table 'sessions' (sessions can be opened by server and by client on the same side!)
@@ -102,7 +104,8 @@ Message layout
 		ID = {0x0 (alive), 0x1 (username changed), etc.}
 		Examples
 			0x1A 0x0A 0x0 "michou"					<->	"Hi! I'm michou! Listening on port 6666"
-			0x1A 0x0A 0x1 "michou" 0x0 "giacomo"	<->	"Hi! I was michou, now I'm giacomo! Listening on port 6666"
+			0x1A 0x0A 0x1 "michou"					<->	"Hi! I'm michou! Am I unique? Listening on port 6666"
+			0x1A 0x0A 0x2 "michou" 0x0 "giacomo"	<->	"Hi! I was michou, now I'm giacomo! Listening on port 6666"
 		
 Network class
 	Thread1: listening (TCP port, any addr, etc.)

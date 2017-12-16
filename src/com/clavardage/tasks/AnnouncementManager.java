@@ -6,31 +6,18 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import com.clavardage.Main;
 import com.clavardage.MessageEvent;
 import com.clavardage.MessageEvent.Event;
-import com.clavardage.MessageText;
 import com.clavardage.Network;
 import com.clavardage.User;
 
-public class AnnouncementManager implements Runnable
+public class AnnouncementManager
 {
 	// TODO: Broadcast? Or centralized way to achieve that (i.e. public list updated whenever a user logs in or logs out)
-	// TODO: choose standard port (6666/6667?)
 
-	@Override
-	public void run()
-	{
-		// Start threads dealing with announcements (talk/listen)
-		(new Thread(new Talk())).start();
-		(new Thread(new Listen())).start();
-	}
-
-	public class Talk implements Runnable
+	public static class Talk implements Runnable
 	{
 		@Override
 		public void run()
@@ -48,14 +35,19 @@ public class AnnouncementManager implements Runnable
 				}
 			}
 		}
+
+		public static void start()
+		{
+			(new Thread(new Talk())).start();
+		}
 	}
 
-	public class Listen implements Runnable
+	public static class Listen implements Runnable
 	{
 		@Override
 		public void run()
 		{
-			// TODO: move to Network?
+			// TODO: move code to Network?
 			DatagramSocket socket;
 			try {
 				socket = new DatagramSocket(Network.ANNOUNCEMENT_PORT, InetAddress.getByName("0.0.0.0"));
@@ -76,28 +68,46 @@ public class AnnouncementManager implements Runnable
 					// Parse packet (cf. packet layout in the wiki)
 					int portNbr = datagram[0] * 256 + datagram[1];
 					Event event = MessageEvent.events.get(datagram[2]);
-					String senderName = "", message = "";
+					String senderName = "", content = "";
 					int i;
 					for (i = 3; datagram[i] != 0x0; i++)
 						senderName += (char) datagram[i];
 					for (i++; i < datagram.length; i++) {
 						if (datagram[i] == 0x0)
 							break;
-						message += (char) datagram[i];
+						content += (char) datagram[i];
 					}
 
-					System.out.println("\n   " + senderName + " (" + event.toString() + ")   " + message);
+					System.out.println("\n   " + senderName + " (" + event.toString() + ")   " + content);
 
 					User user = new User(senderName, packet.getAddress().getHostAddress(), portNbr);
-					User.addUser(user);
-					
-					// TODO: Update user list (username, IP @, port number), change username, etc.
-					// Or forge MessageEvent packet for archiving?
-					/*switch (event) {
+
+					// TODO: Forge MessageEvent packet for archiving?
+					switch (event) {
+					case ALIVE:
+						// Update user list
+						User.addUser(user);
+						
+						// Resolve username conflicts (quite unlikely but it is cool)
+						if (Main.getUsername().equals(user.getUsername())) {
+							// TODO: resolve conflicts (cast the dice)
+						}
+						break;
+						
+					case AM_I_UNIQUE:
+						if (Main.getUsername().equals(user.getUsername()))
+							Network.sendDatagram(new MessageEvent(MessageEvent.Event.ALIVE, ""), user.getIPAddr());
+						break;
+						
 					case USERNAME_CHANGED:
+						// Change username
+						User u = User.findUser(user.getUsername());
+						u.setUsername(content);
+						break;
+						
 					default:
 						break;
-					}*/
+					}
 				}
 
 			} catch (SocketException e) {
@@ -111,10 +121,10 @@ public class AnnouncementManager implements Runnable
 				e.printStackTrace();
 			}
 		}
-	}
 
-	public static void start()
-	{
-		(new Thread(new AnnouncementManager())).start();
+		public static void start()
+		{
+			(new Thread(new Listen())).start();
+		}
 	}
 }

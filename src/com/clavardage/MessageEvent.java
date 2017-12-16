@@ -5,12 +5,14 @@ import java.util.ArrayList;
 public class MessageEvent extends Message<String>
 {
 	private static final long serialVersionUID = 1L;
-	public static enum Event {ALIVE, USERNAME_CHANGED};
+	public static enum Event {ALIVE, AM_I_UNIQUE, USERNAME_CHANGED};
 	public static final ArrayList<Event> events = new ArrayList<Event>()
 	{
+		// Used for broadcasting compact datagrams
 		private static final long serialVersionUID = 1L;
 		{
 			add(Event.ALIVE);
+			add(Event.AM_I_UNIQUE);
 			add(Event.USERNAME_CHANGED);
 		}
 	};

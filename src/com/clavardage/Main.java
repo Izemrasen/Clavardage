@@ -9,7 +9,7 @@ import com.clavardage.tasks.*;
 public abstract class Main
 {
 	// Name of the user running the client
-	private static String username = "perlimpinpin";
+	private static String username = "";
 
 	public static void main(String[] args)
 	{
@@ -21,6 +21,9 @@ public abstract class Main
 		}
 
 		else {
+			// Start listening for announcements
+			AnnouncementManager.Listen.start();
+			
 			// Unit testing
 			/*User u = new User("test", "127.0.0.1", Network.PORT_MESSAGES);
 	        Session s = new Session(u);
@@ -45,8 +48,8 @@ public abstract class Main
 			}*/
 
 			// Test announcements
-			AnnouncementManager.start();
-			//Network.broadcast(null);
+			Main.setUsername("perlimpinpin");
+			AnnouncementManager.Talk.start();
 
 			// Tests history
 			/*User u = new User("michou", "127.0.0.1", Network.MESSAGE_PORT);
