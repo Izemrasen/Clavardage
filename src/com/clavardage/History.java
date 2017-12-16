@@ -77,16 +77,15 @@ public class History
 	// Save (append) history to database for the specified remote user
 	public void save()
 	{
-		// TODO: create table if not existing
-		
 		// Connect to database
 		Connection connection = Database.connect();
-		String SQLRequest = "INSERT INTO user VALUES(\"" + remoteUser.getUsername() + "\");";
+		String SQLRequest;
 		Statement statement = null;
 		try {
 			statement = connection.createStatement();
 
-			// Insert user in case it doesn't exist
+			// Create table if not existing
+			SQLRequest = "CREATE TABLE IF NOT EXISTS message(username TEXT, type INTEGER, direction INTEGER, date INTEGER, content BLOB);";
 			statement.executeUpdate(SQLRequest);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

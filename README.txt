@@ -1,6 +1,4 @@
 TODO
-History
-	Create tables if not existing
 GUI
 	Link with the rest
 		Authentication.login(): username form
@@ -19,7 +17,7 @@ Message
 				-> else get session.oos and write object to stream
 		-> no need for message.label() when broadcasting
 Network
-	Fill a table with active users as they declare themselves (=> no servers for now)
+	Useful to broadcast TCP port?
 Tests
 	Try/catch: develop (e.g. java.net.ConnectException not caught)
 	Class Test: supports CLI args (cf. lib org.apache.commons.cli)
@@ -36,18 +34,30 @@ OPTIMIZATION/EXTENDED FEATURES
 History
 	use receive buffer: do not store the entire history in memory
 		msg received -> update DB && display -> flush buffer
+Smart conflict handling between users having the same username
+	Cast the dice
+	OR central server has authority
 ArrayList -> Array (more efficient?)
 Session
 	check redundancies in table 'sessions' (sessions can be opened by server and by client on the same side!)
 GUI
 	Save username and write it by default in the login form
 Correct warnings
+Check indentation level (max 2-3) && line width (max 100)
 Add @Override whenever needed
 Assess quality of connection (e.g. ping or TCP information (window size, etc.))
 	(dateSent, dateReceived) useless for this task because the two machines aren't necessarily sync to the same clock
 Security
 	Authentication (certificates), integrity (signature)
 	Username not used anymore as a way to id users
+
+
+
+MARKETING, or why our piece of software is some crazy shit (pickle Riiiiiiick!!!)
+Optimized UDP datagrams: compressed as hell
+SQLite database: monolithic, more universal (cross-platform, used by lot of software), etc.
+User identified by port => can run multiple instances of the app on the very same machine
+TODO: Smart conflict handling between users having the same username
 
 
 
@@ -76,15 +86,9 @@ SQLITE
 PRAGMA foreign_keys = ON;
 DROP TABLE user;
 DROP TABLE message;
-CREATE TABLE user(name TEXT PRIMARY KEY) WITHOUT ROWID;
-INSERT INTO user VALUES("michou");
-INSERT INTO user VALUES("louis-yvain");
-CREATE TABLE message(
-	username TEXT, type INTEGER, direction INTEGER, date INTEGER, content BLOB,
-	FOREIGN KEY(username) REFERENCES user(name)
-);
+CREATE TABLE message(username TEXT, type INTEGER, direction INTEGER, date INTEGER, content BLOB);
 INSERT INTO message VALUES("michou", 0, 0, 1512770405, "test");
-INSERT INTO message VALUES("michou", 0, 1, 1512770405, 45);
+INSERT INTO message VALUES("louis-yvain", 0, 1, 1512770405, 45);
 SELECT * FROM message;
 
 /!\ Add lib/sqlite-jdbc-xxx.jar to build path
@@ -92,12 +96,13 @@ SELECT * FROM message;
 
 Message layout
 	UDP datagrams
-		|ID	|Data (null-separated)	|
-		|1B	|<128B					|
-		ID = {0x0 (announcement), 0x1 (username changed), etc.}
+		|PORT	|ID	|NAME	|0x0|Data (null-separated)	|
+		|2B		|1B	|<126B								|
+		PORT = TCP listening port (messages)
+		ID = {0x0 (alive), 0x1 (username changed), etc.}
 		Examples
-			0x0 "michou"				<->	"Hi! I'm michou!"
-			0x1 "michou" 0x0 "giacomo"	<->	"Hi! I was michou, now I'm giacomo!"
+			0x1A 0x0A 0x0 "michou"					<->	"Hi! I'm michou! Listening on port 6666"
+			0x1A 0x0A 0x1 "michou" 0x0 "giacomo"	<->	"Hi! I was michou, now I'm giacomo! Listening on port 6666"
 		
 Network class
 	Thread1: listening (TCP port, any addr, etc.)
@@ -105,7 +110,7 @@ Network class
 
 
 Complex problem
-I want 2 contraints:
+I want 2 constraints:
 #1. Polymorphism: from a generic Message<?>, I want behaviours depending on the real subclass the object belongs to. E.g.:
 	Message<?> m;
 	m.toBytes(); // must behave differently considering the true type of Message (i.e. MessageText or MessageEvent)

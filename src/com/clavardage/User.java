@@ -1,5 +1,8 @@
 package com.clavardage;
 import java.util.ArrayList;
+import java.util.Date;
+
+import com.clavardage.tasks.Watcher;
 
 public class User
 {
@@ -8,9 +11,10 @@ public class User
 	private int portNbr;
 	private Session session;
 	private History history;
+	private Date dateAlive;
 
 	// TODO: avoid duplicates (single tuple of {username, IPAddr, portNbr}) -> hash table? collection?
-	private static ArrayList<User> activeUsers = new ArrayList<User>();
+	private static ArrayList<User> users = new ArrayList<User>();
 
 	public User(String username, String IPAddr, int portNbr)
 	{
@@ -19,6 +23,7 @@ public class User
 		this.portNbr = portNbr;
 		this.session = new Session(this);
 		this.history = new History(this);
+		this.dateAlive = new Date();
 	}
 
 	public String getUsername()
@@ -51,21 +56,41 @@ public class User
 		return history;
 	}
 
-	public static ArrayList<User> getActiveUsers()
+	public Date getDateAlive()
 	{
-		return activeUsers;
-		//users.add(new User("froufrou", "127.0.0.1", 6666));
+		return dateAlive;
 	}
 
-	public static void addActiveUser(User user)
+	public static ArrayList<User> getUsers()
 	{
-		// TODO: avoid duplicates
-		activeUsers.add(user);
+		return users;
 	}
 
-	// Use watcher (thread processing table checking periodically) to make users expire (store timestamp in table)
-	public static void removeActiveUser(User user)
+	public static void addUser(User newUser)
 	{
+		// Add user by avoiding duplicates (most recent entries prevail)
+		User user = findUser(newUser.getUsername());
+		if (user == null) {
+			users.add(newUser);
+		}	else {
+			user.IPAddr = newUser.IPAddr;
+			user.portNbr = newUser.portNbr;
+			user.dateAlive = newUser.dateAlive;
+		}
+	}
 
+	public static User findUser(String username)
+	{
+		for (User user : users) {
+			if (user.getUsername().equals(username))
+				return user;
+		}
+		return null;
+	}
+
+	// Update list of active users
+	public static void updateList()
+	{
+		Watcher.UserList.updateList();
 	}
 }

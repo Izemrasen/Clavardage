@@ -5,12 +5,12 @@ import java.util.ArrayList;
 public class MessageEvent extends Message<String>
 {
 	private static final long serialVersionUID = 1L;
-	public static enum Event {ANNOUNCEMENT, USERNAME_CHANGED};
+	public static enum Event {ALIVE, USERNAME_CHANGED};
 	public static final ArrayList<Event> events = new ArrayList<Event>()
 	{
 		private static final long serialVersionUID = 1L;
 		{
-			add(Event.ANNOUNCEMENT);
+			add(Event.ALIVE);
 			add(Event.USERNAME_CHANGED);
 		}
 	};
@@ -40,6 +40,7 @@ public class MessageEvent extends Message<String>
 	@Override
 	public byte[] toDatagram()
 	{
-		return (this.senderName + (char) 0 + events.indexOf(this.event) + (char) 0 + this.content).getBytes();
+		return ((char) events.indexOf(this.event) + this.senderName +
+			(this.content.isEmpty() ? "" : (char) 0 + this.content)).getBytes();
 	}
 }

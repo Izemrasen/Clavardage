@@ -1,10 +1,12 @@
 package com.clavardage;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.nio.ByteBuffer;
 
 public class Network
 {
@@ -21,11 +23,16 @@ public class Network
 			socket = new DatagramSocket();
 			socket.setBroadcast(true);
 
+			// Add metadata to packet
 			message.label(Message.Direction.SENT, Main.getUsername());
-			byte[] sendData = message.toDatagram();
-			//TODO: check sendData not null
-			DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName("255.255.255.255"), Network.ANNOUNCEMENT_PORT);
-			socket.send(sendPacket);
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			outputStream.write(MESSAGE_PORT >> 8 & 0xFF);
+			outputStream.write(MESSAGE_PORT & 0xFF);
+			outputStream.write(message.toDatagram());
+			byte[] datagram = outputStream.toByteArray();
+			//TODO: check datagram not null
+			DatagramPacket packet = new DatagramPacket(datagram, datagram.length, InetAddress.getByName("255.255.255.255"), Network.ANNOUNCEMENT_PORT);
+			socket.send(packet);
 			socket.close();
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block

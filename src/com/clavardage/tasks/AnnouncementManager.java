@@ -6,11 +6,16 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.clavardage.Main;
 import com.clavardage.MessageEvent;
+import com.clavardage.MessageEvent.Event;
 import com.clavardage.MessageText;
 import com.clavardage.Network;
+import com.clavardage.User;
 
 public class AnnouncementManager implements Runnable
 {
@@ -32,8 +37,7 @@ public class AnnouncementManager implements Runnable
 		{
 			for (;;) {
 				// Send announcement
-				Network.broadcast(new MessageEvent(MessageEvent.Event.ANNOUNCEMENT, ""));
-				Network.broadcast(new MessageEvent(MessageEvent.Event.USERNAME_CHANGED, "froufrou"));
+				Network.broadcast(new MessageEvent(MessageEvent.Event.ALIVE, ""));
 
 				// Sleep
 				try {
@@ -56,21 +60,44 @@ public class AnnouncementManager implements Runnable
 			try {
 				socket = new DatagramSocket(Network.ANNOUNCEMENT_PORT, InetAddress.getByName("0.0.0.0"));
 				socket.setBroadcast(true);
-				byte[] recvBuf = new byte[128];
-				DatagramPacket packet = new DatagramPacket(recvBuf, recvBuf.length);
 
 				for (;;) {
+					// Receive packet
+					byte[] datagram = new byte[128];
+					DatagramPacket packet = new DatagramPacket(datagram, datagram.length);
 					socket.receive(packet);
-					String message = new String(packet.getData()).trim();
+
+					// TODO: launch new thread from here to prevent announcement losses?
 					System.out.print("<<<<<ANNOUNCEMENT: ");
-					byte[] data = packet.getData();
-					for (byte b : data) {
+					for (byte b : datagram) {
 						System.out.print(Integer.toHexString(b) + " ");
 					}
-					System.out.println("   (" + message + ")");
 
-					// TODO: Update user list (username, IP @, port number)
-					//User.addActiveUser(user);
+					// Parse packet (cf. packet layout in the wiki)
+					int portNbr = datagram[0] * 256 + datagram[1];
+					Event event = MessageEvent.events.get(datagram[2]);
+					String senderName = "", message = "";
+					int i;
+					for (i = 3; datagram[i] != 0x0; i++)
+						senderName += (char) datagram[i];
+					for (i++; i < datagram.length; i++) {
+						if (datagram[i] == 0x0)
+							break;
+						message += (char) datagram[i];
+					}
+
+					System.out.println("\n   " + senderName + " (" + event.toString() + ")   " + message);
+
+					User user = new User(senderName, packet.getAddress().getHostAddress(), portNbr);
+					User.addUser(user);
+					
+					// TODO: Update user list (username, IP @, port number), change username, etc.
+					// Or forge MessageEvent packet for archiving?
+					/*switch (event) {
+					case USERNAME_CHANGED:
+					default:
+						break;
+					}*/
 				}
 
 			} catch (SocketException e) {

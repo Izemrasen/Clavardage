@@ -10,7 +10,7 @@ public class Authentication
 			return false;
 
 		// Send broadcast event "user logged in"
-		Network.broadcast(new MessageEvent(MessageEvent.Event.ANNOUNCEMENT, ""));
+		Network.broadcast(new MessageEvent(MessageEvent.Event.ALIVE, ""));
 		return true;
 	}
 
@@ -30,7 +30,7 @@ public class Authentication
 	private static boolean isUsernameUnique(String username)
 	{
 		// Get active users
-		ArrayList<User> users = User.getActiveUsers();
+		ArrayList<User> users = User.getUsers();
 		for (User user : users)
 			if (user.getUsername().equals(username))
 				return false;

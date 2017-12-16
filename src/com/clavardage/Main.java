@@ -45,11 +45,11 @@ public abstract class Main
 			}*/
 
 			// Test announcements
-			/*AnnouncementManager.start();
-    		//Network.broadcast(null);*/
+			AnnouncementManager.start();
+			//Network.broadcast(null);
 
 			// Tests history
-			User u = new User("michou", "127.0.0.1", Network.MESSAGE_PORT);
+			/*User u = new User("michou", "127.0.0.1", Network.MESSAGE_PORT);
 			History h = u.getHistory();
 			h.load();
 			System.out.println(h.toString());
@@ -57,15 +57,25 @@ public abstract class Main
 			m.label(Direction.SENT);
 			h.getMessages().clear();
 			h.add(m);
-			//h.save();
+			h.save();*/
 
 			// Sleep
-			/*try {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			Network.broadcast(new MessageEvent(MessageEvent.Event.USERNAME_CHANGED, "froufrou"));
+
+			// Sleep
+			try {
 				Thread.sleep(60000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}*/
+			}
 			exit();
 
 			/*GuiLoginScreen frame = new GuiLoginScreen();
