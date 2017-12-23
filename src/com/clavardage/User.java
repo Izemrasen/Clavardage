@@ -2,6 +2,7 @@ package com.clavardage;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.clavardage.gui.GuiChatSystem;
 import com.clavardage.tasks.Watcher;
 
 public class User
@@ -77,6 +78,9 @@ public class User
 		User user = findUser(newUser.getUsername());
 		if (user == null) {
 			users.add(newUser);
+			
+			// Update list (GUI)
+			GuiChatSystem.guiChatSystem.displayActiveUsers();
 		} else {
 			user.IPAddr = newUser.IPAddr;
 			user.portNbr = newUser.portNbr;

@@ -16,7 +16,8 @@ import com.clavardage.User;
 
 public class AnnouncementManager
 {
-	// TODO: Broadcast? Or centralized way to achieve that (i.e. public list updated whenever a user logs in or logs out)
+	// TODO: Broadcast? Or centralized way to achieve that (i.e. public list updated
+	// whenever a user logs in or logs out)
 
 	public static class Talk implements Runnable
 	{
@@ -81,6 +82,11 @@ public class AnnouncementManager
 
 					System.out.println("\n   " + senderName + " (" + event.toString() + ")   " + content);
 
+					// Do not consider messages coming from the local user
+					if (packet.getAddress().getHostAddress().equals(socket.getLocalAddress().getHostAddress())
+						&& portNbr == socket.getLocalPort())
+						continue;
+
 					User user = new User(senderName, packet.getAddress().getHostAddress(), portNbr);
 
 					// TODO: Forge MessageEvent packet for archiving?
@@ -88,23 +94,23 @@ public class AnnouncementManager
 					case ALIVE:
 						// Update user list
 						User.addUser(user);
-						
+
 						// Resolve username conflicts (quite unlikely but it is cool)
 						if (Main.getUsername().equals(user.getUsername())) {
 							// TODO: resolve conflicts (cast the dice)
 						}
 						break;
-						
+
 					case AM_I_UNIQUE:
 						if (Main.getUsername().equals(user.getUsername()))
 							Network.sendDatagram(new MessageEvent(MessageEvent.Event.ALIVE, ""), user.getIPAddr());
 						break;
-						
+
 					case USERNAME_CHANGED:
 						// Change username
 						User.addUser(user);
 						break;
-						
+
 					default:
 						break;
 					}

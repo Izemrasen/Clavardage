@@ -10,6 +10,7 @@ import com.clavardage.User;
 public class GuiChatSystem extends JFrame
 {
 	private final ChatSystemPresenter CSpresenter;
+	public static GuiChatSystem guiChatSystem; // TODO: static GuiChatSystem instead of that
 
     JPanel rightPanel = new JPanel(new GridLayout(2, 0));
     JPanel leftPanel = new JPanel((new BorderLayout(2,0)));
@@ -22,6 +23,7 @@ public class GuiChatSystem extends JFrame
 		super("Clavardage");
 		this.CSpresenter = new ChatSystemPresenter(this);
 		this.setLayout(new BorderLayout());
+		guiChatSystem = this;
 
 		/******** RIGHT PANEL ********/
 

@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.clavardage.Network;
 import com.clavardage.User;
+import com.clavardage.gui.GuiChatSystem;
 
 public class Watcher // or Timer
 {
@@ -17,9 +18,9 @@ public class Watcher // or Timer
 			for (;;) {
 				updateList();
 
-				// Sleep 1s
+				// Sleep 100ms
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -35,6 +36,9 @@ public class Watcher // or Timer
 				if (new Date().getTime() - user.getDateAlive().getTime() > Network.ANNOUNCEMENT_TIMEOUT + 1000) {
 					// Remove user from table
 					activeUsers.remove(user);
+					
+					// Update list (GUI)
+					GuiChatSystem.guiChatSystem.displayActiveUsers();
 				}
 			}
 		}
