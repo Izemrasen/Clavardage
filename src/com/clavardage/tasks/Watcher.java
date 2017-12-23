@@ -6,6 +6,7 @@ import java.util.Date;
 import com.clavardage.Network;
 import com.clavardage.User;
 import com.clavardage.gui.GuiChatSystem;
+import com.clavardage.tasks.AnnouncementManager.Listen;
 
 public class Watcher // or Timer
 {
@@ -35,12 +36,19 @@ public class Watcher // or Timer
 			for (User user : activeUsers) {
 				if (new Date().getTime() - user.getDateAlive().getTime() > Network.ANNOUNCEMENT_TIMEOUT + 1000) {
 					// Remove user from table
+					// TODO: synchronize it (ConcurrentModificationException when the list is modified from another thread)
 					activeUsers.remove(user);
 					
 					// Update list (GUI)
-					GuiChatSystem.guiChatSystem.displayActiveUsers();
+					if (GuiChatSystem.guiChatSystem != null)
+						GuiChatSystem.guiChatSystem.displayActiveUsers();
 				}
 			}
 		}
+	}
+	
+	public static void start()
+	{
+		(new Thread(new UserList())).start();
 	}
 }

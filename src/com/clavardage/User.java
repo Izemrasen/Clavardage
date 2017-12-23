@@ -80,7 +80,8 @@ public class User
 			users.add(newUser);
 			
 			// Update list (GUI)
-			GuiChatSystem.guiChatSystem.displayActiveUsers();
+			if (GuiChatSystem.guiChatSystem != null)
+				GuiChatSystem.guiChatSystem.displayActiveUsers();
 		} else {
 			user.IPAddr = newUser.IPAddr;
 			user.portNbr = newUser.portNbr;

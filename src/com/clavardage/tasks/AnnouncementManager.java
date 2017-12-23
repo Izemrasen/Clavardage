@@ -82,10 +82,10 @@ public class AnnouncementManager
 
 					System.out.println("\n   " + senderName + " (" + event.toString() + ")   " + content);
 
-					// Do not consider messages coming from the local user
-					if (packet.getAddress().getHostAddress().equals(socket.getLocalAddress().getHostAddress())
+					// TODO: Do not consider messages coming from the local user
+					/*if (packet.getAddress().getHostAddress().equals(socket.getInetAddress().getHostAddress())
 						&& portNbr == socket.getLocalPort())
-						continue;
+						continue;*/
 
 					User user = new User(senderName, packet.getAddress().getHostAddress(), portNbr);
 
