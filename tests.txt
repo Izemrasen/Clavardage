@@ -1,5 +1,0 @@
-TESTS
-Multiple instances of the app running on the same machine
-Sending a message to a user who just logged out
-Handle disconnection properly
-Two users having the same name

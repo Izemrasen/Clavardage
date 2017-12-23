@@ -30,6 +30,7 @@ public class ChatSystemPresenter
 		}
 
 		// TODO: open new window for chatting
+
 	}
 
 	public void onSendButtonClicked(String message)
