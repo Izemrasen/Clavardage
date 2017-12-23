@@ -45,7 +45,6 @@ public class ChatSystemPresenter
 
 	public void onConfirmButtonClicked(String username)
 	{
-		Main.setUsername(username);
 		Authentication.changeUsername(username);
 	}
 }

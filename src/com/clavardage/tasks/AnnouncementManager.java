@@ -102,9 +102,7 @@ public class AnnouncementManager
 						
 					case USERNAME_CHANGED:
 						// Change username
-						User u = User.findUser(user.getUsername());
-						u.setUsername(content);
-						u.setDateAlive(new Date());
+						User.addUser(user);
 						break;
 						
 					default:
