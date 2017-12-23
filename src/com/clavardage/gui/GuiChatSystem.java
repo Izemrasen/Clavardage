@@ -127,12 +127,14 @@ public class GuiChatSystem extends JFrame
 		// TODO: make it less ugly
 		this.userListPanel.removeAll();
 
-		for (User user : User.getUsers()) {
-			JButton connectButton = new JButton(user.getUsername());
-			this.userListPanel.add(connectButton);
-			this.userListPanel.validate();
-			this.userListPanel.repaint();
-			connectButton.addActionListener(e -> this.CSpresenter.onConnectButtonClicked(connectButton.getText()));
+		synchronized (User.getUsers()) {
+			for (User user : User.getUsers()) {
+				JButton connectButton = new JButton(user.getUsername());
+				this.userListPanel.add(connectButton);
+				this.userListPanel.validate();
+				this.userListPanel.repaint();
+				connectButton.addActionListener(e -> this.CSpresenter.onConnectButtonClicked(connectButton.getText()));
+			}
 		}
 	}
 

@@ -90,12 +90,27 @@ public class AnnouncementManager
 					User user = new User(senderName, packet.getAddress().getHostAddress(), portNbr);
 
 					// TODO: Forge MessageEvent packet for archiving?
-					if (event == Event.ALIVE || event == Event.USERNAME_CHANGED) {
+					if (event == Event.ALIVE) {
 						if (Main.getUsername().equals(user.getUsername())) {
 							// TODO: resolve conflicts (cast the dice)
 						} else {
 							// Update user list
 							User.addUser(user);
+						}
+					} else if (event == Event.USERNAME_CHANGED) {
+						String newUsername = content;
+						if (Main.getUsername().equals(newUsername)) {
+							// TODO: resolve conflicts (cast the dice)
+						} else {
+							// Update user list
+							User newUser = User.findUser(newUsername);
+							if (newUser == null) {
+								User.addUser(user);
+							} else {
+								User.getUsers().remove(newUser);
+								User.addUser(user);
+								user.setUsername(newUsername);
+							}
 						}
 					} else if (event == Event.AM_I_UNIQUE) {
 						if (Main.getUsername().equals(user.getUsername()) && Main.isConnected())

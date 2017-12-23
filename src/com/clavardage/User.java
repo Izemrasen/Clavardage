@@ -77,7 +77,9 @@ public class User
 		// Add user by avoiding duplicates (most recent entries prevail)
 		User user = findUser(newUser.getUsername());
 		if (user == null) {
-			users.add(newUser);
+			synchronized (users) {
+				users.add(newUser);
+			}
 			
 			// Update list (GUI)
 			if (GuiChatSystem.guiChatSystem != null)
@@ -91,9 +93,11 @@ public class User
 
 	public static User findUser(String username)
 	{
-		for (User user : users) {
-			if (user.getUsername().equals(username))
-				return user;
+		synchronized (users) {
+			for (User user : users) {
+				if (user.getUsername().equals(username))
+					return user;
+			}
 		}
 		return null;
 	}

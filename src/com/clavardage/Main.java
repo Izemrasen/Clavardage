@@ -85,7 +85,8 @@ public abstract class Main
 			// Sleep (prevent closing threads too soon)
 	        for(;;) {
 				try {
-					Thread.sleep(60000);
+					System.out.println(User.getUsers().size());
+					Thread.sleep(5000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
