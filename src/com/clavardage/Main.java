@@ -11,6 +11,7 @@ public abstract class Main
 {
 	// Name of the user running the client
 	private static String username = "";
+	private static boolean connected = false;
 
 	public static void main(String[] args)
 	{
@@ -111,5 +112,15 @@ public abstract class Main
 	public static void setUsername(String username)
 	{
 		Main.username = username;
+	}
+
+	public static boolean isConnected()
+	{
+		return connected;
+	}
+
+	public static void setConnected(boolean connected)
+	{
+		Main.connected = connected;
 	}
 }

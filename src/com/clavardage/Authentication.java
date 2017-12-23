@@ -1,6 +1,4 @@
 package com.clavardage;
-import java.util.ArrayList;
-
 import com.clavardage.tasks.AnnouncementManager;
 
 public class Authentication
@@ -21,6 +19,8 @@ public class Authentication
 		if (!isUsernameUnique(username))
 			return false;
 
+		Main.setConnected(true);
+		
 		// Start talking
 		AnnouncementManager.Talk.start();
 

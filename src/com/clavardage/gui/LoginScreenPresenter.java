@@ -18,21 +18,17 @@ public class LoginScreenPresenter
 	public void onComputeButtonClicked(String username) throws UnknownHostException
 	{
 		Main.setUsername(username);
-
-		// Testing
-		Authentication.login(username);
-		//if (Authentication.login(username)) {
-			// User u = new User(username,
-			// InetAddress.getLocalHost().getHostAddress().toString(),
-			// Network.MESSAGE_PORT);
+		
+		if (Authentication.login(username)) {
+			// Display chat
 			guiLoginScreen.setVisible(false);
 			guiLoginScreen.dispose();
 			GuiChatSystem frame = new GuiChatSystem();
 			GuiChatSystem.guiChatSystem.displayActiveUsers();
 			frame.display();
-		/*} else {
+		} else {
 			Main.setUsername("");
 			guiLoginScreen.usernameAlreadyInUse(username);
-		}*/
+		}
 	}
 }
