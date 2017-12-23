@@ -1,4 +1,5 @@
 package com.clavardage.tasks;
+
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,7 +24,7 @@ public class Server implements Runnable
 		try {
 			// Initialise server socket
 			serverSocket = new ServerSocket(Network.MESSAGE_PORT);
-			for(;;) {
+			for (;;) {
 				System.out.println("<Server> Waiting for clients...");
 				Socket clientSocket = serverSocket.accept();
 				System.out.println("<Server> Caught client!!! :)");
@@ -52,7 +53,6 @@ public class Server implements Runnable
 			this.clientSocket = clientSocket;
 		}
 
-		// TODO: remove redundancies (procedure for timestamping message, etc.) 
 		@Override
 		public void run()
 		{
@@ -72,15 +72,14 @@ public class Server implements Runnable
 				messageID.label(Message.Direction.RECEIVED);
 
 				// Create session
-				User client = new User(messageID.getContent(), clientSocket.getRemoteSocketAddress().toString(), clientSocket.getPort());
+				User client = new User(messageID.getContent(), clientSocket.getRemoteSocketAddress().toString(),
+					clientSocket.getPort());
 				Session session = new Session(client);
 				Session.addSession(session);
 
 				// Loop for getting next messages
-				// TODO: check socket state w/ clientSocket.isClosed()?
 				try {
-					for (;;)
-					{
+					for (;;) {
 						// Update message metadata and save it
 						Message<?> m = (Message<?>) ois.readObject();
 						System.out.println("<Server> Got message.");
@@ -89,7 +88,6 @@ public class Server implements Runnable
 					}
 				} catch (SocketTimeoutException exc) {
 					// You got the timeout
-					// TODO: do the same thing than EOFException catch
 				} catch (EOFException exc) {
 					// End of stream
 					System.out.println("<Server> End of stream.");
@@ -102,9 +100,8 @@ public class Server implements Runnable
 					System.out.println("<Server> Closing session...");
 					clientSocket.close();
 					System.out.println("<Server> Session closed.");
-					System.out.println("<Server> History:\n" + session.getRemoteUser().getHistory().toString());
-
-					// TODO: Remove session from table, destroy session
+					// System.out.println("<Server> History:\n" +
+					// session.getRemoteUser().getHistory().toString());
 				} catch (IOException exc) {
 					// some other I/O error: print it, log it, etc.
 					exc.printStackTrace(); // for example

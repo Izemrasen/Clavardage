@@ -5,7 +5,11 @@ import java.util.ArrayList;
 public class MessageEvent extends Message<String>
 {
 	private static final long serialVersionUID = 1L;
-	public static enum Event {ALIVE, AM_I_UNIQUE, USERNAME_CHANGED};
+
+	public static enum Event {
+		ALIVE, AM_I_UNIQUE, USERNAME_CHANGED
+	};
+
 	public static final ArrayList<Event> events = new ArrayList<Event>()
 	{
 		// Used for broadcasting compact datagrams (bijection Event <-> int)
@@ -42,7 +46,7 @@ public class MessageEvent extends Message<String>
 	@Override
 	public byte[] toDatagram()
 	{
-		return ((char) events.indexOf(this.event) + this.senderName +
-			(this.content.isEmpty() ? "" : (char) 0 + this.content)).getBytes();
+		return ((char) events.indexOf(this.event) + this.senderName
+			+ (this.content.isEmpty() ? "" : (char) 0 + this.content)).getBytes();
 	}
 }

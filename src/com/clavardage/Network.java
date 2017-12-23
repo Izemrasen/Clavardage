@@ -28,11 +28,13 @@ public class Network
 			outputStream.write(MESSAGE_PORT & 0xFF);
 			outputStream.write(message.toDatagram());
 			byte[] datagram = outputStream.toByteArray();
-			
-			//TODO: check datagram not null
-			
+
+			if (datagram == null)
+				return;
+
 			// Send packet
-			DatagramPacket packet = new DatagramPacket(datagram, datagram.length, InetAddress.getByName(IPAddr), Network.ANNOUNCEMENT_PORT);
+			DatagramPacket packet =
+				new DatagramPacket(datagram, datagram.length, InetAddress.getByName(IPAddr), Network.ANNOUNCEMENT_PORT);
 			socket.send(packet);
 			socket.close();
 		} catch (SocketException e) {
@@ -43,7 +45,7 @@ public class Network
 			e.printStackTrace();
 		}
 	}
-	
+
 	// Broadcast messages
 	public static void broadcast(Message<?> message)
 	{

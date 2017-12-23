@@ -1,4 +1,5 @@
 package com.clavardage;
+
 import com.clavardage.tasks.AnnouncementManager;
 
 public class Authentication
@@ -20,7 +21,7 @@ public class Authentication
 			return false;
 
 		Main.setConnected(true);
-		
+
 		// Start talking
 		AnnouncementManager.Talk.start();
 

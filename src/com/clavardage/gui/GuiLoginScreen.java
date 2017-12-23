@@ -1,9 +1,7 @@
 package com.clavardage.gui;
 
 import static java.awt.BorderLayout.EAST;
-import static java.awt.BorderLayout.SOUTH;
 import static java.awt.BorderLayout.WEST;
-import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 import java.awt.*;
@@ -12,7 +10,7 @@ import javax.swing.*;
 
 public class GuiLoginScreen extends JFrame
 {
-
+	private static final long serialVersionUID = 1L;
 	private final LoginScreenPresenter LSpresenter;
 
 	public GuiLoginScreen()
@@ -53,7 +51,7 @@ public class GuiLoginScreen extends JFrame
 		loginTextField.requestFocus();
 
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		
+
 		this.getRootPane().setDefaultButton(computeButton);
 	}
 

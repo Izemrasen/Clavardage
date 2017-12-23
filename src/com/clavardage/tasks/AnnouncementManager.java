@@ -6,7 +6,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Date;
 
 import com.clavardage.Main;
 import com.clavardage.MessageEvent;
@@ -16,9 +15,6 @@ import com.clavardage.User;
 
 public class AnnouncementManager
 {
-	// TODO: Broadcast? Or centralized way to achieve that (i.e. public list updated
-	// whenever a user logs in or logs out)
-
 	public static class Talk implements Runnable
 	{
 		@Override
@@ -49,7 +45,6 @@ public class AnnouncementManager
 		@Override
 		public void run()
 		{
-			// TODO: move code to Network?
 			DatagramSocket socket;
 			try {
 				socket = new DatagramSocket(Network.ANNOUNCEMENT_PORT, InetAddress.getByName("0.0.0.0"));
@@ -61,11 +56,10 @@ public class AnnouncementManager
 					DatagramPacket packet = new DatagramPacket(datagram, datagram.length);
 					socket.receive(packet);
 
-					// TODO: launch new thread from here to prevent announcement losses?
-					System.out.print("<<<<<ANNOUNCEMENT: ");
-					for (byte b : datagram) {
-						System.out.print(Integer.toHexString(b) + " ");
-					}
+					/*
+					 * System.out.print("<<<<<ANNOUNCEMENT: "); for (byte b : datagram) {
+					 * System.out.print(Integer.toHexString(b) + " "); }
+					 */
 
 					// Parse packet (cf. packet layout in the wiki)
 					int portNbr = datagram[0] * 256 + datagram[1];
@@ -80,16 +74,11 @@ public class AnnouncementManager
 						content += (char) datagram[i];
 					}
 
-					System.out.println("\n   " + senderName + " (" + event.toString() + ")   " + content);
-
-					// TODO: Do not consider messages coming from the local user
-					/*if (packet.getAddress().getHostAddress().equals(socket.getInetAddress().getHostAddress())
-						&& portNbr == socket.getLocalPort())
-						continue;*/
+					// System.out.println("\n " + senderName + " (" + event.toString() + ") " +
+					// content);
 
 					User user = new User(senderName, packet.getAddress().getHostAddress(), portNbr);
 
-					// TODO: Forge MessageEvent packet for archiving?
 					if (event == Event.ALIVE) {
 						if (Main.getUsername().equals(user.getUsername())) {
 							// TODO: resolve conflicts (cast the dice)

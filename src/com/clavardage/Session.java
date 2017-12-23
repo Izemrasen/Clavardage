@@ -1,20 +1,19 @@
 package com.clavardage;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 public class Session
 {
 	// Table keeping every open sessions originating from the client or the server
-	// TODO: remove/destroy session when closed
-	private static ArrayList<Session> sessions = new ArrayList<Session>(); // TODO: keep a single session table (remove this one or User's)
-	private static ArrayList<Message<?>> messageBuffer = new ArrayList<Message<?>>(); // Buffer to keep messages received recently?
+	private static ArrayList<Session> sessions = new ArrayList<Session>();
 
 	private User remoteUser;
-	// TODO: provide session status (OPEN, CLOSED, etc.)?
 	private Socket socket;
 	private OutputStream os; // Used for end-to-end object streaming
 	private ObjectOutputStream oos;
@@ -53,18 +52,21 @@ public class Session
 		// Update message metadata
 		message.label(Message.Direction.SENT, Main.getUsername());
 
-		this.oos.writeObject(message);
-		//TODO: catch "java.net.SocketException: Broken pipe" (happens when the server closes connection while client is still connected)
+		try {
+			this.oos.writeObject(message);
+		} catch (SocketException e) {
+			// Remote server closed connection while client was still connected
+		}
 	}
 
 	public void start() throws IOException
 	{
-		// Initiate TCP connection
-		// TODO: correct that comment (I think TCP connection is initiated when opening stream)
-		System.out.println("<Client> Establishing connection with " + remoteUser.getUsername() + " (" + remoteUser.getIPAddr() + ":" + remoteUser.getPortNbr() + ")...");
+		// Establish TCP connection
+		System.out.println("<Client> Establishing connection with " + remoteUser.getUsername() + " ("
+			+ remoteUser.getIPAddr() + ":" + remoteUser.getPortNbr() + ")...");
 		try {
-			this.socket = new Socket(remoteUser.getIPAddr(),remoteUser.getPortNbr());
-		} catch (ConnectException e){
+			this.socket = new Socket(remoteUser.getIPAddr(), remoteUser.getPortNbr());
+		} catch (ConnectException e) {
 			// Remote user logged out. Too bad...
 			return;
 		}
@@ -91,7 +93,5 @@ public class Session
 		System.out.println("<Client> Closing session...");
 		this.socket.close();
 		System.out.println("<Client> Session closed.");
-
-		// TODO: Remove session from table? Destroy session
 	}
 }

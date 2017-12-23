@@ -22,7 +22,7 @@ public class MessageBlob extends Message<byte[]>
 	@Override
 	public byte[] toDatagram()
 	{
-		// TODO Not destined to be sent
+		// Not destined to be sent
 		return null;
 	}
 

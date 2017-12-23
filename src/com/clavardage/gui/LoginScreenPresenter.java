@@ -1,9 +1,6 @@
 package com.clavardage.gui;
 
 import com.clavardage.*;
-import com.clavardage.tasks.AnnouncementManager;
-
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class LoginScreenPresenter
@@ -18,7 +15,7 @@ public class LoginScreenPresenter
 	public void onComputeButtonClicked(String username) throws UnknownHostException
 	{
 		Main.setUsername(username);
-		
+
 		if (Authentication.login(username)) {
 			// Display chat
 			guiLoginScreen.setVisible(false);

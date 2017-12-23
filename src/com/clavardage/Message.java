@@ -1,4 +1,5 @@
 package com.clavardage;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,19 +8,25 @@ public abstract class Message<Content> implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
-	public static enum Type {DATA, EVENT, TEXT};
+	public static enum Type {
+		DATA, EVENT, TEXT
+	};
+
 	protected Type type;
 	public static final ArrayList<Type> types = new ArrayList<Type>()
 	{
 		private static final long serialVersionUID = 1L;
 		{
 			add(Type.DATA);
-			//add(Type.EVENT); Useless (not stored in history)
+			// add(Type.EVENT); Useless (not stored in history)
 			add(Type.TEXT);
 		}
 	};
 
-	public enum Direction {RECEIVED, SENT};
+	public enum Direction {
+		RECEIVED, SENT
+	};
+
 	protected Direction direction;
 	public static final ArrayList<Direction> directions = new ArrayList<Direction>()
 	{

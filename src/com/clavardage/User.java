@@ -1,4 +1,5 @@
 package com.clavardage;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -13,8 +14,6 @@ public class User
 	private Session session;
 	private History history;
 	private Date dateAlive;
-
-	// TODO: avoid duplicates (single tuple of {username, IPAddr, portNbr}) -> hash table? collection?
 	private static ArrayList<User> users = new ArrayList<User>();
 
 	public User(String username, String IPAddr, int portNbr)
@@ -61,7 +60,7 @@ public class User
 	{
 		return dateAlive;
 	}
-	
+
 	public void setDateAlive(Date dateAlive)
 	{
 		this.dateAlive = dateAlive;
@@ -80,7 +79,7 @@ public class User
 			synchronized (users) {
 				users.add(newUser);
 			}
-			
+
 			// Update list (GUI)
 			if (GuiChatSystem.guiChatSystem != null)
 				GuiChatSystem.guiChatSystem.displayActiveUsers();
