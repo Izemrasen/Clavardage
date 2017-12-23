@@ -2,10 +2,9 @@ package com.clavardage.gui;
 
 import java.io.IOException;
 
-import com.clavardage.Authentication;
-import com.clavardage.Main;
-import com.clavardage.Session;
-import com.clavardage.User;
+import com.clavardage.*;
+
+import javax.print.DocFlavor;
 
 public class ChatSystemPresenter
 {
@@ -33,10 +32,15 @@ public class ChatSystemPresenter
 		// TODO: open new window for chatting
 	}
 
-	public void onRefreshButtonClicked()
+	public void onSendButtonClicked(String message)
 	{
-		// user.updateList();
-		this.guiChatSystem.displayActiveUsers();
+		History history = User.findUser(Main.getUsername()).getHistory();
+		history.load();
+		MessageText m = new MessageText(message);
+		m.label(Message.Direction.SENT);
+		history.getMessages().clear();
+		history.add(m);
+		history.save();
 	}
 
 	public void onConfirmButtonClicked(String username)

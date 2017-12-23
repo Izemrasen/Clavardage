@@ -45,21 +45,12 @@ public class GuiChatSystem extends JFrame
 
 		// User List Panel
 
-		JPanel userContainer = new JPanel(new BorderLayout(2, 0));
-		JButton buadzaz = new JButton("mama");
-		buadzaz.setSize(20,20);
+		JPanel userContainer = new JPanel();
 		userListPanel.validate();
         JScrollPane usersScrollPanel = new JScrollPane(userListPanel);
 
-		// Refresh Button
-		JButton refreshButton = new JButton("Refresh");
 
-		refreshButton.setPreferredSize(new Dimension(20, 20));
-		refreshButton.addActionListener(e ->
-				this.CSpresenter.onRefreshButtonClicked());
-
-		userContainer.add(usersScrollPanel, BorderLayout.CENTER);
-		userContainer.add(refreshButton, BorderLayout.SOUTH);
+		userContainer.add(usersScrollPanel);
 
 		rightPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Users"));
 		rightPanel.add(userContainer);
@@ -75,6 +66,9 @@ public class GuiChatSystem extends JFrame
 		// Entry Panel
 		JButton dataMessage = new JButton("Data");
 		JButton sendButton = new JButton("Send");
+		sendButton.addActionListener(e ->
+				this.CSpresenter.onSendButtonClicked(chatTextPane.getText()));
+
 		JTextField textMessage = new JTextField("enter your message ...");
 		textMessage.getFont().deriveFont(Font.ITALIC);
 		textMessage.setForeground(Color.gray);
