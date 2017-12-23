@@ -67,24 +67,12 @@ public class ChatSystemPresenter
 		}
 		
 		// Update history (do not confuse total history with session history!)
-		history.add(m);
 		History sessionHistory = new History(remoteUser);
 		sessionHistory.add(m);
 		sessionHistory.save(); // save() appends messages to DB, that's why session history contains only the last message
 		
 		// Update chat panel
 		historyPane.setText(history.toString());
-		
-		
-		
-		// This is beeeeeed
-		/*History history = User.findUser(Main.getUsername()).getHistory();
-		history.load();
-		MessageText m = new MessageText(message);
-		m.label(Message.Direction.SENT);
-		history.getMessages().clear();
-		history.add(m);
-		history.save();*/
 	}
 
 	public void onConfirmButtonClicked(String username)
