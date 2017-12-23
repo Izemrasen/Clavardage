@@ -19,18 +19,20 @@ public class LoginScreenPresenter
 	{
 		Main.setUsername(username);
 
-		if (Authentication.login(username)) {
+		// Testing
+		Authentication.login(username);
+		//if (Authentication.login(username)) {
 			// User u = new User(username,
 			// InetAddress.getLocalHost().getHostAddress().toString(),
 			// Network.MESSAGE_PORT);
-			Network.broadcast(new MessageEvent(MessageEvent.Event.ALIVE, username + "is connected!"));
 			guiLoginScreen.setVisible(false);
 			guiLoginScreen.dispose();
 			GuiChatSystem frame = new GuiChatSystem();
+			GuiChatSystem.guiChatSystem.displayActiveUsers();
 			frame.display();
-		} else {
+		/*} else {
 			Main.setUsername("");
 			guiLoginScreen.usernameAlreadyInUse(username);
-		}
+		}*/
 	}
 }

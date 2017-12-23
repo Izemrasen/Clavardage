@@ -44,11 +44,6 @@ public class Authentication
 	private static boolean isUsernameUnique(String username)
 	{
 		// Get active users
-		// TODO: send announcement and wait for answers
-		ArrayList<User> users = User.getUsers();
-		for (User user : users)
-			if (user.getUsername().equals(username))
-				return false;
-		return true;
+		return User.findUser(username) == null ? true : false;
 	}
 }

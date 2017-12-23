@@ -23,7 +23,10 @@ public abstract class Main
 
 		else {
 			// Start listening for announcements
-			//AnnouncementManager.Listen.start();
+			AnnouncementManager.Listen.start();
+			
+			// Start userlist watcher
+			Watcher.start();
 			
 			GuiLoginScreen frame = new GuiLoginScreen();
 	        frame.display();
