@@ -45,6 +45,9 @@ public class ChatSystemPresenter
 	{
 		// TODO: provide remote user
 		User remoteUser = User.findUser(guiChatSystem.currentRemoteUser);
+		if (remoteUser == null)
+			return;
+		
 		History history = remoteUser.getHistory();
 		
 		Session session = remoteUser.getSession();
@@ -74,7 +77,6 @@ public class ChatSystemPresenter
 		// Update chat panel
 		historyPane.setText(history.toString());
 		textField.setText("");
-
 	}
 
 	public void onChangeUsernameClicked(String username)

@@ -2,6 +2,7 @@ package com.clavardage;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -61,7 +62,12 @@ public class Session
 		// Initiate TCP connection
 		// TODO: correct that comment (I think TCP connection is initiated when opening stream)
 		System.out.println("<Client> Establishing connection with " + remoteUser.getUsername() + " (" + remoteUser.getIPAddr() + ":" + remoteUser.getPortNbr() + ")...");
-		this.socket = new Socket(remoteUser.getIPAddr(),remoteUser.getPortNbr());
+		try {
+			this.socket = new Socket(remoteUser.getIPAddr(),remoteUser.getPortNbr());
+		} catch (ConnectException e){
+			// Remote user logged out. Too bad...
+			return;
+		}
 
 		// Open stream
 		System.out.println("<Client> Opening stream...");

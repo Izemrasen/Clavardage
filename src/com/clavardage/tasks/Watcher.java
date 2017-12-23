@@ -34,16 +34,20 @@ public class Watcher // or Timer
 			// Check list of active users
 			ArrayList<User> activeUsers= User.getUsers();
 			synchronized (activeUsers) {
-				for (User user : activeUsers) {
-					if (new Date().getTime() - user.getDateAlive().getTime() > Network.ANNOUNCEMENT_TIMEOUT + 1000) {
-						// Remove user from table
-						// TODO: synchronize it (ConcurrentModificationException when the list is modified from another thread)
-						activeUsers.remove(user);
-						
-						// Update list (GUI)
-						if (GuiChatSystem.guiChatSystem != null)
-							GuiChatSystem.guiChatSystem.displayActiveUsers();
+				try {
+					for (User user : activeUsers) {
+						if (new Date().getTime() - user.getDateAlive().getTime() > Network.ANNOUNCEMENT_TIMEOUT + 1000) {
+							// Remove user from table
+							// TODO: synchronize it (ConcurrentModificationException when the list is modified from another thread)
+							activeUsers.remove(user);
+							
+							// Update list (GUI)
+							if (GuiChatSystem.guiChatSystem != null)
+								GuiChatSystem.guiChatSystem.displayActiveUsers();
+						}
 					}
+				} catch (Exception e) {
+					// NOP NOP NOP
 				}
 			}
 		}

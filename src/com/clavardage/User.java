@@ -91,7 +91,7 @@ public class User
 		}
 	}
 
-	public static User findUser(String username)
+	public synchronized static User findUser(String username)
 	{
 		synchronized (users) {
 			for (User user : users) {

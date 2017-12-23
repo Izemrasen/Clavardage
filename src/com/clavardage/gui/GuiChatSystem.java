@@ -61,8 +61,6 @@ public class GuiChatSystem extends JFrame
 		rightPanel.add(settingsPanel, BorderLayout.SOUTH);
 		rightPanel.setPreferredSize(new Dimension(200,70));
 
-		displayActiveUsers();
-
         /******** LEFT PANEL ********/
 		// Chat Panel
 		historyPane = new JTextPane();
@@ -133,17 +131,11 @@ public class GuiChatSystem extends JFrame
 				JButton connectButton = new JButton(user.getUsername());
 				connectButton.setPreferredSize(new Dimension(160,25));
 				this.userListPanel.add(connectButton);
-				this.userListPanel.validate();
-				this.userListPanel.repaint();
 				connectButton.addActionListener(e -> this.CSpresenter.onConnectButtonClicked(connectButton.getText()));
 			}
 		}
-	}
-
-	public void displaySession(String Username)
-	{
-
-		User.findUser(Username).getHistory().toString();
+		this.userListPanel.revalidate();
+		this.userListPanel.repaint();
 	}
 
 	public void display()
