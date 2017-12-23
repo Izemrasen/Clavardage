@@ -1,6 +1,10 @@
 package com.clavardage.tasks;
 
 import java.util.ArrayList;
+import java.util.Date;
+
+import com.clavardage.Network;
+import com.clavardage.User;
 
 public class Watcher // or Timer
 {
@@ -26,12 +30,13 @@ public class Watcher // or Timer
 		public static void updateList()
 		{
 			// Check list of active users
-			//ArrayList<User> activeUsers= User.getActiveUsers();
-			/*for (User user : activeUsers) {
-				if (date now - user.dateAdded > TIMEOUT_ANNOUNCEMENT + 100) {
+			ArrayList<User> activeUsers= User.getUsers();
+			for (User user : activeUsers) {
+				if (new Date().getTime() - user.getDateAlive().getTime() > Network.ANNOUNCEMENT_TIMEOUT + 1000) {
 					// Remove user from table
+					activeUsers.remove(user);
 				}
-			}*/
+			}
 		}
 	}
 }

@@ -60,6 +60,11 @@ public class User
 	{
 		return dateAlive;
 	}
+	
+	public void setDateAlive(Date dateAlive)
+	{
+		this.dateAlive = dateAlive;
+	}
 
 	public static ArrayList<User> getUsers()
 	{
@@ -72,7 +77,7 @@ public class User
 		User user = findUser(newUser.getUsername());
 		if (user == null) {
 			users.add(newUser);
-		}	else {
+		} else {
 			user.IPAddr = newUser.IPAddr;
 			user.portNbr = newUser.portNbr;
 			user.dateAlive = newUser.dateAlive;

@@ -23,11 +23,11 @@ public class Authentication
 
 		// Start talking
 		AnnouncementManager.Talk.start();
-		
+
 		return true;
 	}
 
-	public static boolean changeUsername(String oldUsername, String newUsername)
+	public static boolean changeUsername(String newUsername)
 	{
 		// Check username
 		if (!isUsernameUnique(newUsername))
@@ -35,6 +35,8 @@ public class Authentication
 
 		// Send broadcast event "username changed"
 		Network.broadcast(new MessageEvent(MessageEvent.Event.USERNAME_CHANGED, newUsername));
+
+		Main.setUsername(newUsername);
 
 		return true;
 	}

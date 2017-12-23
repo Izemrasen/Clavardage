@@ -7,6 +7,7 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 import java.awt.*;
+import java.net.UnknownHostException;
 import javax.swing.*;
 
 public class GuiLoginScreen extends JFrame
@@ -33,7 +34,13 @@ public class GuiLoginScreen extends JFrame
 
 		// Button Connect
 		JButton computeButton = new JButton("Connect");
-		computeButton.addActionListener(e -> this.LSpresenter.onComputeButtonClicked(loginTextField.getText()));
+		computeButton.addActionListener(e -> {
+			try {
+				this.LSpresenter.onComputeButtonClicked(loginTextField.getText());
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace();
+			}
+		});
 
 		// Main container
 		JPanel contentPane = new JPanel();
@@ -46,6 +53,8 @@ public class GuiLoginScreen extends JFrame
 		loginTextField.requestFocus();
 
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		
+		this.getRootPane().setDefaultButton(computeButton);
 	}
 
 	public void usernameAlreadyInUse(String username)

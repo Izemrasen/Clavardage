@@ -6,6 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Date;
 
 import com.clavardage.Main;
 import com.clavardage.MessageEvent;
@@ -103,6 +104,7 @@ public class AnnouncementManager
 						// Change username
 						User u = User.findUser(user.getUsername());
 						u.setUsername(content);
+						u.setDateAlive(new Date());
 						break;
 						
 					default:

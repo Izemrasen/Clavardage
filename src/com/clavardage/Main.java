@@ -4,6 +4,7 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 
 import com.clavardage.Message.Direction;
+import com.clavardage.gui.GuiLoginScreen;
 import com.clavardage.tasks.*;
 
 public abstract class Main
@@ -24,6 +25,9 @@ public abstract class Main
 			// Start listening for announcements
 			AnnouncementManager.Listen.start();
 			
+			GuiLoginScreen frame = new GuiLoginScreen();
+	        frame.display();
+
 			// Unit testing
 			/*User u = new User("test", "127.0.0.1", Network.PORT_MESSAGES);
 	        Session s = new Session(u);
@@ -46,10 +50,22 @@ public abstract class Main
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}*/
+			
+			
 
 			// Test announcements
-			Main.setUsername("perlimpinpin");
+			/*Main.setUsername("perlimpinpin");
 			AnnouncementManager.Talk.start();
+			// Sleep
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Authentication.changeUsername("froufrou");*/
+			
+			
 
 			// Tests history
 			/*User u = new User("michou", "127.0.0.1", Network.MESSAGE_PORT);
@@ -62,27 +78,16 @@ public abstract class Main
 			h.add(m);
 			h.save();*/
 
-			// Sleep
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			Network.broadcast(new MessageEvent(MessageEvent.Event.USERNAME_CHANGED, "froufrou"));
-
-			// Sleep
-			try {
-				Thread.sleep(60000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			exit();
-
-			/*GuiLoginScreen frame = new GuiLoginScreen();
-	        frame.display();*/
+			// Sleep (prevent closing threads too soon)
+	        for(;;) {
+				try {
+					Thread.sleep(60000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        }
+			//exit();
 		}
 	}
 
