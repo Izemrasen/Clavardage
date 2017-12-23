@@ -19,7 +19,9 @@ public class LoginScreenPresenter
 	{
 		Main.setUsername(username);
 
-		if (Authentication.login(username)) {
+		// Testing
+		Authentication.login(username);
+		//if (Authentication.login(username)) {
 			// User u = new User(username,
 			// InetAddress.getLocalHost().getHostAddress().toString(),
 			// Network.MESSAGE_PORT);
@@ -28,9 +30,9 @@ public class LoginScreenPresenter
 			GuiChatSystem frame = new GuiChatSystem();
 			GuiChatSystem.guiChatSystem.displayActiveUsers();
 			frame.display();
-		} else {
+		/*} else {
 			Main.setUsername("");
 			guiLoginScreen.usernameAlreadyInUse(username);
-		}
+		}*/
 	}
 }

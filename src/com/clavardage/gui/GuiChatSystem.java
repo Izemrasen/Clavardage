@@ -11,12 +11,14 @@ public class GuiChatSystem extends JFrame
 {
 	private final ChatSystemPresenter CSpresenter;
 	public static GuiChatSystem guiChatSystem; // TODO: static GuiChatSystem instead of that
+	public static JTextPane historyPane;
+	public String currentRemoteUser;
 
-    JPanel rightPanel = new JPanel(new GridLayout(2, 0));
-    JPanel leftPanel = new JPanel((new BorderLayout(2,0)));
+	JPanel rightPanel = new JPanel(new GridLayout(2, 0));
+	JPanel leftPanel = new JPanel((new BorderLayout(2, 0)));
 
-    JScrollPane chatScrollPane = new JScrollPane();
-    JPanel userListPanel = new JPanel(new GridLayout(100, 0));
+	JScrollPane chatScrollPane = new JScrollPane();
+	JPanel userListPanel = new JPanel(new GridLayout(100, 0));
 
 	public GuiChatSystem()
 	{
@@ -63,15 +65,12 @@ public class GuiChatSystem extends JFrame
 
         /******** LEFT PANEL ********/
 		// Chat Panel
-		JTextPane chatTextPane = new JTextPane();
-		JScrollPane chatScrollPane = new JScrollPane();
-		chatScrollPane.add(chatTextPane);
+		historyPane = new JTextPane();
+		JScrollPane chatScrollPane = new JScrollPane(historyPane);
+		
 		// Entry Panel
 		JButton dataMessage = new JButton("Data");
 		JButton sendButton = new JButton("Send");
-		sendButton.addActionListener(e ->
-				this.CSpresenter.onSendButtonClicked(chatTextPane.getText()));
-
 		JTextField textMessage = new JTextField("enter your message ...");
 		textMessage.getFont().deriveFont(Font.ITALIC);
 		textMessage.setForeground(Color.gray);
@@ -99,6 +98,8 @@ public class GuiChatSystem extends JFrame
 		entryPane.setLayout(new BorderLayout(0,2));
 		entryPane.add(textMessage, BorderLayout.CENTER);
 		entryPane.add(containerButton, BorderLayout.EAST);
+		sendButton.addActionListener(e ->
+		this.CSpresenter.onSendButtonClicked(textMessage.getText(), historyPane));
 
 		containerButton.add(dataMessage);
 		containerButton.add(sendButton);
@@ -126,19 +127,20 @@ public class GuiChatSystem extends JFrame
 		// TODO: make it less ugly
 		this.userListPanel.removeAll();
 
-		for (User user : User.findUser(Main.getUsername()).getUsers()) {
+		for (User user : User.getUsers()) {
 			JButton connectButton = new JButton(user.getUsername());
 			this.userListPanel.add(connectButton);
-            this.userListPanel.validate();
+			this.userListPanel.validate();
 			this.userListPanel.repaint();
 			connectButton.addActionListener(e -> this.CSpresenter.onConnectButtonClicked(connectButton.getText()));
 		}
 	}
 
-	public void displaySession(String Username){
+	public void displaySession(String Username)
+	{
 
-        User.findUser(Username).getHistory().toString();
-    }
+		User.findUser(Username).getHistory().toString();
+	}
 
 	public void display()
 	{
