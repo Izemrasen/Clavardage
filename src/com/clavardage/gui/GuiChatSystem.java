@@ -47,7 +47,7 @@ public class GuiChatSystem extends JFrame
 
 		JPanel userContainer = new JPanel();
         JScrollPane usersScrollPanel = new JScrollPane(userListPanel);
-        usersScrollPanel.setPreferredSize(new Dimension(170,510));
+        usersScrollPanel.setPreferredSize(new Dimension(170,470));
 		usersScrollPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		usersScrollPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -72,7 +72,7 @@ public class GuiChatSystem extends JFrame
 		// Entry Panel
 		JButton dataMessage = new JButton("Data");
 		JButton sendButton = new JButton("Send");
-		JTextField textMessage = new JTextField("enter your message ...");
+        JTextField textMessage = new JTextField("enter your message ...");
 		textMessage.getFont().deriveFont(Font.ITALIC);
 		textMessage.setForeground(Color.gray);
 		textMessage.addMouseListener(new MouseListener() {
@@ -101,7 +101,7 @@ public class GuiChatSystem extends JFrame
 		entryPane.add(textMessage, BorderLayout.CENTER);
 		entryPane.add(containerButton, BorderLayout.EAST);
 		sendButton.addActionListener(e ->
-		this.CSpresenter.onSendButtonClicked(textMessage.getText(), historyPane));
+		this.CSpresenter.onSendButtonClicked(textMessage.getText(), historyPane, textMessage));
 
 		containerButton.add(dataMessage);
 		containerButton.add(sendButton);
@@ -136,11 +136,6 @@ public class GuiChatSystem extends JFrame
 			this.userListPanel.repaint();
 			connectButton.addActionListener(e -> this.CSpresenter.onConnectButtonClicked(connectButton.getText()));
 		}
-		/*for (int i=0 ; i < 25 ; i++){
-			JButton Button = new JButton("TEST" + i);
-			Button.setPreferredSize(new Dimension(160,25));
-			this.userListPanel.add(Button);
-		}*/
 	}
 
 	public void displaySession(String Username)

@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.clavardage.*;
 
 import javax.print.DocFlavor;
-import javax.swing.JTextPane;
+import javax.swing.*;
 
 public class ChatSystemPresenter
 {
@@ -41,7 +41,7 @@ public class ChatSystemPresenter
 
 	}
 
-	public void onSendButtonClicked(String message, JTextPane historyPane)
+	public void onSendButtonClicked(String message, JTextPane historyPane, JTextField textField)
 	{
 		// TODO: provide remote user
 		User remoteUser = User.findUser(guiChatSystem.currentRemoteUser);
@@ -73,10 +73,12 @@ public class ChatSystemPresenter
 		
 		// Update chat panel
 		historyPane.setText(history.toString());
+		textField.setText("");
+
 	}
 
-	public void onConfirmButtonClicked(String username)
+	public void onChangeUsernameClicked(String username)
 	{
-		Authentication.changeUsername(username);
+	    Authentication.changeUsername(username);
 	}
 }
