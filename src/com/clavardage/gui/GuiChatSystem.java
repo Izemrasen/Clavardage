@@ -14,6 +14,7 @@ public class GuiChatSystem extends JFrame
     JPanel rightPanel = new JPanel(new GridLayout(2, 0));
     JPanel leftPanel = new JPanel((new BorderLayout(2,0)));
 
+    JScrollPane chatScrollPane = new JScrollPane();
     JPanel userListPanel = new JPanel(new GridLayout(100, 0));
 
 	public GuiChatSystem()
@@ -132,8 +133,9 @@ public class GuiChatSystem extends JFrame
 		}
 	}
 
-	public void displaySession(){
+	public void displaySession(String Username){
 
+        User.findUser(Username).getHistory().toString();
     }
 
 	public void display()
