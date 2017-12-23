@@ -14,11 +14,10 @@ public class GuiChatSystem extends JFrame
 	public static JTextPane historyPane;
 	public String currentRemoteUser;
 
-	JPanel rightPanel = new JPanel(new GridLayout(2, 0));
+	JPanel rightPanel = new JPanel(new BorderLayout(2, 0));
 	JPanel leftPanel = new JPanel((new BorderLayout(2, 0)));
 
-	JScrollPane chatScrollPane = new JScrollPane();
-	JPanel userListPanel = new JPanel(new GridLayout(100, 0));
+	JPanel userListPanel = new JPanel(new GridLayout(100,0));
 
 	public GuiChatSystem()
 	{
@@ -30,42 +29,44 @@ public class GuiChatSystem extends JFrame
 		/******** RIGHT PANEL ********/
 
         // Change Login
-        JLabel changeLoginLabel = new JLabel("Change your Username :");
-        JTextField changeLoginTextField = new JTextField(15);
-        changeLoginLabel.setLabelFor(changeLoginTextField);
-        changeLoginTextField.setToolTipText("Insert your login");
-
-        // Button OK
-        JButton confirmButton = new JButton("Confirm");
-        confirmButton.setSize(10, 10);
-        confirmButton.addActionListener(e ->
-                this.CSpresenter.onConfirmButtonClicked(changeLoginTextField.getText()));
+        JTextField changeLoginTextField = new JTextField(Main.getUsername());
+        changeLoginTextField.setToolTipText("Insert your new login");
+		changeLoginTextField.setBackground(null);
+		changeLoginTextField.setBorder(null);
+        changeLoginTextField.addActionListener(e ->
+				this.CSpresenter.onChangeUsernameClicked(changeLoginTextField.getText()));
 
 
         // Settings Panel
-        JPanel settingsPanel = new JPanel(new GridLayout(4, 0));
-        settingsPanel.add(changeLoginLabel);
+        JPanel settingsPanel = new JPanel();
+
+
         settingsPanel.add(changeLoginTextField);
-        settingsPanel.add(confirmButton);
 
 		// User List Panel
 
 		JPanel userContainer = new JPanel();
-		userListPanel.validate();
         JScrollPane usersScrollPanel = new JScrollPane(userListPanel);
+        usersScrollPanel.setPreferredSize(new Dimension(170,510));
+		usersScrollPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		usersScrollPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 
 		userContainer.add(usersScrollPanel);
-
-		rightPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Users"));
-		rightPanel.add(userContainer);
-		rightPanel.add(settingsPanel);
+		userContainer.setBorder(BorderFactory.createTitledBorder
+				(BorderFactory.createLineBorder(Color.BLACK), "Active Users"));
+		settingsPanel.setBorder(BorderFactory.createTitledBorder
+				(BorderFactory.createLineBorder(Color.BLACK), "Change Username"));
+		rightPanel.add(userContainer, BorderLayout.CENTER);
+		rightPanel.add(settingsPanel, BorderLayout.SOUTH);
+		rightPanel.setPreferredSize(new Dimension(200,70));
 
 		displayActiveUsers();
 
         /******** LEFT PANEL ********/
 		// Chat Panel
 		historyPane = new JTextPane();
+		historyPane.setEditable(false);
 		JScrollPane chatScrollPane = new JScrollPane(historyPane);
 		
 		// Entry Panel
@@ -92,6 +93,7 @@ public class GuiChatSystem extends JFrame
 				textEntryMessage.removeMouseListener(this);
 			}
 		});
+
 		JPanel containerButton = new JPanel();
 		containerButton.setLayout(new GridLayout(0,2));
 		JPanel entryPane = new JPanel();
@@ -105,9 +107,8 @@ public class GuiChatSystem extends JFrame
 		containerButton.add(sendButton);
 		entryPane.setPreferredSize(new Dimension(20,40));
 
-
 		leftPanel
-			.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Chat Session"));
+			.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Chat session"));
 		leftPanel.add(chatScrollPane, BorderLayout.CENTER);
 		leftPanel.add(entryPane, BorderLayout.SOUTH);
 
@@ -129,11 +130,17 @@ public class GuiChatSystem extends JFrame
 
 		for (User user : User.getUsers()) {
 			JButton connectButton = new JButton(user.getUsername());
+			connectButton.setPreferredSize(new Dimension(160,25));
 			this.userListPanel.add(connectButton);
 			this.userListPanel.validate();
 			this.userListPanel.repaint();
 			connectButton.addActionListener(e -> this.CSpresenter.onConnectButtonClicked(connectButton.getText()));
 		}
+		/*for (int i=0 ; i < 25 ; i++){
+			JButton Button = new JButton("TEST" + i);
+			Button.setPreferredSize(new Dimension(160,25));
+			this.userListPanel.add(Button);
+		}*/
 	}
 
 	public void displaySession(String Username)
